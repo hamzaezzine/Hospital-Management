@@ -6,6 +6,13 @@
 <div class="card shadow-lg mx-auto mt-5" style="max-width: 24rem;">
   <div class="card-body p-4">
     <h1 class="fs-4 card-title fw-bold mb-3 text-center">Login</h1>
+    
+    {% if registration_success %}
+      <div class="alert alert-success" role="alert">
+        Your account has been successfully registered.
+      </div>
+    {% endif %}
+
     <form method="POST" class="needs-validation" novalidate="" autocomplete="off" enctype="multipart/form-data">
       {% csrf_token %}
 

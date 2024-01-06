@@ -26,6 +26,24 @@
         </select>
       </div>
 
+      <div id="specialty_block" class="mb-3" style="display: {% if user_config == 'Doctor' %}block{% else %}none{% endif %}">
+        <label class="mb-2 text-muted" for="specialty">Specialty</label>
+        <input id="specialty" type="text" class="form-control" name="specialty" {% if user_config == 'Doctor' %}required{% endif %} />
+        <div class="invalid-feedback">Specialty is required for doctors</div>
+      </div>
+      
+      <div id="bio_block" class="mb-3" style="display: {% if user_config == 'Doctor' %}block{% else %}none{% endif %}">
+          <label class="mb-2 text-muted" for="bio">Bio</label>
+          <textarea id="bio" class="form-control" name="bio" {% if user_config == 'Doctor' %}required{% endif %}></textarea>
+          <div class="invalid-feedback">Bio is required for doctors</div>
+      </div>
+      
+      <div id="insurance_block" class="mb-3" style="display: {% if user_config == 'Patient' %}block{% else %}none{% endif %}">
+          <label class="mb-2 text-muted" for="insurance">Insurance</label>
+          <input id="insurance" type="text" class="form-control" name="insurance" {% if user_config == 'Patient' %}required{% endif %} />
+          <div class="invalid-feedback">Insurance is required for patients</div>
+      </div>
+
       <div class="mb-3">
         <label class="mb-2 text-muted" for="id_user">Username</label>
         <input id="id_user" type="text" class="form-control" name="user_id" value="{{ user_id }}" required autofocus />
@@ -45,12 +63,18 @@
       </div>
       
       <div class="mb-3">
-        <label class="mb-2 text-muted" for="select_sex">Gender</label>
-        <select class="form-select" aria-label="Default select example" name="user_sex" id="select_sex">
-          <option value="Male" {% if user_sex == 'Male' %}selected{% endif %}>Male</option>
-          <option value="Female" {% if user_sex == 'Female' %}selected{% endif %}>Female</option>
+        <label class="mb-2 text-muted" for="select_gender">Gender</label>
+        <select class="form-select" aria-label="Default select example" name="user_gender" id="select_gender">
+          <option value="Male" {% if user_gender == 'Male' %}selected{% endif %}>Male</option>
+          <option value="Female" {% if user_gender == 'Female' %}selected{% endif %}>Female</option>
         </select>
-      </div>      
+      </div>   
+      
+      <div class="mb-3" >
+        <label class="mb-2 text-muted" for="birthday">Birthday</label>
+        <input id="birthday" type="date" class="form-control" name="birthday" value="{{ birthday }}" required />
+        <div class="invalid-feedback">Birthday is invalid</div>
+      </div>
       
       <div class="mb-3" >
         <label class="mb-2 text-muted" for="email">E-mail Address</label>
@@ -71,11 +95,11 @@
       </div>
 
       <div class="mb-3">
-        <label class="mb-2 text-muted" for="Address">Address</label>
-        <input id="Address" type="text" class="form-control mb-2" name="add" value="{{ add }}" placeholder="Enter Line" required autofocus />
-        <input id="Address" type="text" class="form-control mb-2" name="city" value="{{ city }}" placeholder="City" required autofocus />
-        <input id="Address" type="text" class="form-control mb-2" name="state" value="{{ state }}" placeholder="State" required autofocus />
-        <input id="Address" type="text" class="form-control" name="pincode" value="{{ pincode }}" placeholder="pincode" required autofocus />
+        <label class="mb-2 text-muted" for="AddressLine">Address Line</label>
+        <input id="AddressLine" type="text" class="form-control mb-2" name="address_line" value="{{ address_line }}" placeholder="Address Line" required autofocus />
+        <input id="Region" type="text" class="form-control mb-2" name="region" value="{{ region }}" placeholder="Region" required autofocus />
+        <input id="City" type="text" class="form-control mb-2" name="city" value="{{ city }}" placeholder="City" required autofocus />
+        <input id="Pincode" type="text" class="form-control" name="pincode" value="{{ pincode }}" placeholder="Code Postal" required autofocus />
         <div class="invalid-feedback">Address is required</div>
       </div>
       
@@ -102,4 +126,33 @@
     </div>
   </div>
 </div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    toggleFields();
+
+    document.getElementById('user_status').addEventListener('change', function() {
+      toggleFields();
+    });
+
+    function toggleFields() {
+      var userConfig = document.getElementById('user_status').value;
+      var specialtyBlock = document.getElementById('specialty_block');
+      var bioBlock = document.getElementById('bio_block');
+      var insuranceBlock = document.getElementById('insurance_block');
+
+      if (userConfig === 'Doctor') {
+        specialtyBlock.style.display = 'block';
+        bioBlock.style.display = 'block';
+        insuranceBlock.style.display = 'none';
+      } else if (userConfig === 'Patient') {
+        specialtyBlock.style.display = 'none';
+        bioBlock.style.display = 'none';
+        insuranceBlock.style.display = 'block';
+      }
+    }
+  });
+</script>
+
+
 {% endblock content %}

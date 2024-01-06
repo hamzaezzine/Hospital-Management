@@ -6,9 +6,9 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.hashers import make_password
 from django.contrib.auth import get_user_model
-
-
+from .models import Doctors, Patients, Address
 
 Users = get_user_model()
 
@@ -24,40 +24,56 @@ def register(request):
 
         username = request.POST.get('user_id')
         email = request.POST.get('email')
-        sex = request.POST.get('user_sex')
+        gender = request.POST.get('user_gender')
+        birthday = request.POST.get("birthday")
         password = request.POST.get('password')
         confirm_password = request.POST.get('conf_password')
-        address = request.POST.get('add') + " , " + request.POST.get('city') + " , " + request.POST.get('state') + " , " + request.POST.get('pincode')
+        address_line = request.POST.get('address_line')
+        region = request.POST.get('region')
+        city = request.POST.get('city')
+        pincode = request.POST.get('pincode')
 
         if len(password) < 6:
             messages.error(request, 'Password must be at least 6 characters long.')
-            return render(request, 'users/register.html', context={'errorcame': 1, 'user_config': user_status, 'user_firstname': first_name, 'user_lastname': last_name, 'user_id': username, 'email': email, 'user_sex': sex, 'add': request.POST.get('add'), 'city': request.POST.get('city'), 'state': request.POST.get('state'), 'pincode': request.POST.get('pincode')})
+            return render(request, 'users/register.html', context={'errorcame': 1, 'user_config': user_status, 'user_firstname': first_name, 'user_lastname': last_name, 'user_id': username, 'email': email, 'user_gender': gender, 'address_line': address_line, 'region': region, 'city': city, 'pincode': pincode})
 
         if password != confirm_password:
             messages.error(request, 'Passwords do not match.')
-            return render(request, 'users/register.html', context={'errorcame': 1, 'user_config': user_status, 'user_firstname': first_name, 'user_lastname': last_name, 'user_id': username, 'email': email, 'user_sex': sex, 'add': request.POST.get('add'), 'city': request.POST.get('city'), 'state': request.POST.get('state'), 'pincode': request.POST.get('pincode')})
+            return render(request, 'users/register.html', context={'errorcame': 1, 'user_config': user_status, 'user_firstname': first_name, 'user_lastname': last_name, 'user_id': username, 'email': email, 'user_gender': gender, 'address_line': address_line, 'region': region, 'city': city, 'pincode': pincode})
 
-        # Check if the username already exists
-        variable = Users.objects.filter(username=username)
-        if len(variable) == 0:
-            user = Users.objects.create_user(
-                user_status=user_status,
-                first_name=first_name,
-                last_name=last_name,
-                profile_pic=profile_pic,
-                username=username,
-                email=email,
-                sex=sex,
-                password=password,
-                confirm_password=confirm_password,
-                address=address,
-            )
-
-            user.save()
-            return redirect('login')
-        else:
+        if Users.objects.filter(username=username).exists():
             messages.error(request, 'Username already exists. Try again with a different username.')
-            return render(request, 'users/register.html', context={'errorcame': 1, 'user_config': user_status, 'user_firstname': first_name, 'user_lastname': last_name, 'user_id': username, 'email': email, 'user_sex': sex, 'add': request.POST.get('add'), 'city': request.POST.get('city'), 'state': request.POST.get('state'), 'pincode': request.POST.get('pincode')})
+            return render(request, 'users/register.html', context={'errorcame': 1, 'user_config': user_status, 'user_firstname': first_name, 'user_lastname': last_name, 'user_id': username, 'email': email, 'user_gender': gender, 'address_line': address_line, 'region': region, 'city': city, 'pincode': pincode})
+
+        address = Address.objects.create(address_line=address_line, region=region,city=city, code_postal=pincode)
+
+        user = Users.objects.create_user(
+            first_name=first_name,
+            last_name=last_name,
+            profile_avatar=profile_pic,
+            username=username,
+            email=email,
+            gender=gender,
+            birthday=birthday,
+            password=password,
+            id_address=address,
+        )
+        
+        user.save()
+
+        if user_status == 'Doctor':
+            specialty = request.POST.get('specialty')
+            bio = request.POST.get('bio')
+            doctor = Doctors.objects.create(user=user, specialty=specialty, bio=bio)
+            doctor.save()
+            
+        elif user_status == 'Patient':
+            insurance = request.POST.get('insurance')
+            patient = Patients.objects.create(user=user, insurance=insurance)
+            patient.save()
+
+        messages.success(request, 'Your account has been successfully registered. Please login.')
+        return render(request, 'users/login.html', {'registration_success': True})
 
     return render(request, 'users/register.html', context={'errorcame': 0})
 
