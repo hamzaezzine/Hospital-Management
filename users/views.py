@@ -77,24 +77,27 @@ def register(request):
 
     return render(request, 'users/register.html', context={'errorcame': 0})
 
+
 def login_view(request):
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
+  if request.method == 'POST':
+    username = request.POST.get('username')
+    password = request.POST.get('password')
 
-        user = authenticate(username=username, password=password)
+    user = authenticate(request, username=username, password=password)
 
-        if user is not None:
-            login(request, user)
-            obj = User.objects.get(username=username)
-            if obj.user_status == "Doctor":
-                return redirect('doctor_profile')
-            elif(obj.user_status == "Patient"):
-                return redirect('patient_profile')
-        else:
-            return render(request, 'users/login.html', context={'errorlogin': 1})
+    if user is not None:
+      login(request, user)
 
-    return render(request, 'users/login.html', context={'errorlogin': 0})
+      if Doctors.objects.filter(user=user).exists():
+        return redirect('doctor_profile')
+
+      elif Patients.objects.filter(user=user).exists():
+        return redirect('patient_profile')
+      
+    else:
+        return render(request, 'users/login.html', context={'errorlogin': 1})
+
+  return render(request, 'users/login.html', context={'errorlogin': 0})
 
 
 def forgot_view(request):
