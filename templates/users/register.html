@@ -1,0 +1,105 @@
+{% extends 'users/base.html' %}
+
+{% block title %}Register Page{% endblock title %}
+
+{% block content %}
+<div class="card shadow-lg mx-auto mt-5" style="max-width: 34rem;">
+  <div class="card-body p-4">
+    <h1 class="fs-4 card-title fw-bold mb-3 text-center">Register</h1>
+
+    <form method="POST" class="needs-validation" novalidate="" autocomplete="off" enctype="multipart/form-data">
+      {% csrf_token %}
+
+      {% if errorcame %}
+        <div class="alert alert-danger" role="alert">
+          {% for message in messages %}
+            {{ message }}
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      <div class="mb-3">
+        <label class="mb-2 text-muted" for="user_status">Choose Your Status :</label>
+        <select class="form-select" name="user_config" id="user_status">
+          <option value="Doctor" {% if user_config == 'Doctor' %}selected{% endif %}>Doctor</option>
+          <option value="Patient" {% if user_config == 'Patient' %}selected{% endif %}>Patient</option>
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label class="mb-2 text-muted" for="id_user">Username</label>
+        <input id="id_user" type="text" class="form-control" name="user_id" value="{{ user_id }}" required autofocus />
+        <div class="invalid-feedback">username is required</div>
+      </div>
+
+      <div class="mb-3">
+        <label class="mb-2 text-muted" for="first_name">First Name</label>
+        <input id="first_name" type="text" class="form-control" name="user_firstname" value="{{ user_firstname }}" required autofocus />
+        <div class="invalid-feedback">First Name is required</div>
+      </div>
+
+      <div class="mb-3">
+        <label class="mb-2 text-muted" for="last_name">Last Name</label>
+        <input id="last_name" type="text" class="form-control" name="user_lastname" value="{{ user_lastname }}" required autofocus />
+        <div class="invalid-feedback">Last Name is required</div>
+      </div>
+      
+      <div class="mb-3">
+        <label class="mb-2 text-muted" for="select_sex">Gender</label>
+        <select class="form-select" aria-label="Default select example" name="user_sex" id="select_sex">
+          <option value="Male" {% if user_sex == 'Male' %}selected{% endif %}>Male</option>
+          <option value="Female" {% if user_sex == 'Female' %}selected{% endif %}>Female</option>
+        </select>
+      </div>      
+      
+      <div class="mb-3" >
+        <label class="mb-2 text-muted" for="email">E-mail Address</label>
+        <input id="email" type="email" class="form-control" name="email" value="{{ email }}" required />
+        <div class="invalid-feedback">Email is invalid</div>
+      </div>
+
+      <div class="mb-3">
+        <label class="mb-2 text-muted" for="password">Password</label>
+        <input id="password" type="password" class="form-control" name="password" required />
+        <div class="invalid-feedback">Password is required</div>
+      </div>
+
+      <div class="mb-3">
+        <label class="mb-2 text-muted" for="conf__password">Confirm Password</label>
+        <input id="conf__password" type="password" class="form-control" name="conf_password" required />
+        <div class="invalid-feedback">Password is required</div>
+      </div>
+
+      <div class="mb-3">
+        <label class="mb-2 text-muted" for="Address">Address</label>
+        <input id="Address" type="text" class="form-control mb-2" name="add" value="{{ add }}" placeholder="Enter Line" required autofocus />
+        <input id="Address" type="text" class="form-control mb-2" name="city" value="{{ city }}" placeholder="City" required autofocus />
+        <input id="Address" type="text" class="form-control mb-2" name="state" value="{{ state }}" placeholder="State" required autofocus />
+        <input id="Address" type="text" class="form-control" name="pincode" value="{{ pincode }}" placeholder="pincode" required autofocus />
+        <div class="invalid-feedback">Address is required</div>
+      </div>
+      
+      <div class="mb-3 col-12 col-md-12">
+        <label for="pic" class="form-label fw-bold"> <i class="bi bi-image-alt"></i> Profile Avatar</label>
+        <input type="file" class="form-control p-3"  name="profile_pic" id="pic"  required  >
+      </div>
+
+      <p class="form-text text-muted mb-3">
+        By registering you agree with our terms and condition.
+      </p>
+
+      <div class="align-items-center d-flex">
+        <button type="submit" class="btn btn-primary ms-auto primary-color-background">
+          Register
+        </button>
+      </div>
+    </form>
+  </div>
+  <div class="card-footer py-3 border-0">
+    <div class="text-center">
+      Already have an account?
+      <a href="{% url 'login' %}" class="text-dark secondary-color">Login</a>
+    </div>
+  </div>
+</div>
+{% endblock content %}

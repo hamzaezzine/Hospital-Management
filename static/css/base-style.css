@@ -1,0 +1,21 @@
+:root {
+  --primary-color: #123053;
+  --secondary-color: #EFA323;
+}
+
+
+.primary-color{
+  color: var(--primary-color);
+}
+
+.primary-color-background{
+  background-color: var(--primary-color);
+}
+
+.secondary-color{
+  color: var(--secondary-color) !important;
+}
+
+.secondary-color-background{
+  background-color: var(--secondary-color);
+}
