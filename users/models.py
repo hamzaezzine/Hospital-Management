@@ -20,7 +20,7 @@ class Address(models.Model):
 class Users(AbstractUser):
     email = models.CharField(max_length=50)
     username = models.CharField(max_length=50, unique=True)
-    password = models.CharField(max_length=50)
+    password = models.CharField(max_length=200)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     gender_choices = (("Male", "Male"), ("Female", "Female"))

@@ -1,6 +1,8 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.contrib.auth import update_session_auth_hash
 
 User = get_user_model()
 
@@ -10,14 +12,51 @@ def doctor_dashboard(request):
 
 @login_required(login_url='/login')
 def doctor_profile(request):
+    updated_profile_successfully  = False
+    updated_password_successfully = False
+
     if request.method == 'POST':
-        curruser = request.user.username
-        data = User.objects.get(user_id=curruser)
-        return render(request, 'doctor/doctor_profile_update.html', context={"userprofile": data})
-      
+      if 'update_profile' in request.POST:
+        user = request.user
+        user.first_name = request.POST.get('user_firstname')
+        user.last_name = request.POST.get('user_lastname')
+        user.gender = request.POST.get('user_gender')
+        user.birthday = request.POST.get('birthday')
+        user.id_address.address_line = request.POST.get('address_line')
+        user.id_address.region = request.POST.get('region')
+        user.id_address.city = request.POST.get('city')
+        user.id_address.code_postal = request.POST.get('code_postal')
+
+        if 'profile_pic' in request.FILES:
+            user.profile_avatar = request.FILES['profile_pic']
+
+        user.save()
+        updated_profile_successfully  = True
+        
+      elif 'update_password' in request.POST:
+        current_password = request.POST.get('current_password')
+        new_password = request.POST.get('new_password')
+        confirm_new_password = request.POST.get('confirm_new_password')
+
+        if not request.user.check_password(current_password):
+          messages.error(request, 'Incorrect password. Please try again.')
+        elif new_password != confirm_new_password:
+          messages.error(request, 'New passwords do not match. Please try again.')
+        elif len(new_password) < 6:
+          messages.error(request, 'New password must be at least 6 characters long.')
+        else:
+          request.user.set_password(new_password)
+          request.user.save()
+          update_session_auth_hash(request, request.user) 
+          updated_password_successfully = True
+
     curruser = request.user.username
     data = User.objects.get(username=curruser)
-    return render(request, 'doctors/doctor_profile.html', context={"basicdata": data})
+    return render(request, 'doctors/doctor_profile.html', context={
+            "basicdata": data,
+            "updated_profile_successfully": updated_profile_successfully,
+            "updated_password_successfully": updated_password_successfully
+        })
     
 
 @login_required(login_url='/login')

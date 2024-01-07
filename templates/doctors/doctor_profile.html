@@ -10,104 +10,160 @@
     <div class="table-div">
       <div class="table-card">
         <div class="row p-3 justify-content-evenly">
-            <h2 class="text-center fw-bold mb-5" style="color: rgb(3, 11, 72);">My Profile</h2>
-            <div class="col-12 col-md-5  shadow mb-4">
-                <div class="text-center mt-4">
-                    <img src="{{ basicdata.profile_avatar.url }}"
-                        class="img-fluid shadow" alt="" style="width: 300px; height:300px; border-radius: 50%; border: 3px solid rgb(67, 67, 132);">
+          <h2 class="text-center fw-bold mb-5" style="color: rgb(3, 11, 72);">My Profile</h2>
 
-                </div>
-                <div class="row justify-content-evenly">
-                    <h4 class="text-center fw-bold mt-3 mb-2" style="color: rgb(3, 11, 72);"></h4>
-                    <hr>
-                    <div class="col-11">
-                        <span class="fw-bold">Username : </span>
-                        <p class="ms-4">{{ basicdata.username }}</p>
-                    </div>
-                    <hr>
-                    <div class="col-11">
-                        <span class="fw-bold">Email : </span>
-                        <p class="ms-4">{{ basicdata.email }}</p>
-                    </div>
-                    <hr>
-                </div>
+          <div class="col-12 col-md-5  shadow mb-4">
+            <div class="text-center mt-4">
+              <img src="{{ basicdata.profile_avatar.url }}" class="img-fluid shadow avatar-profile-img" alt="">
             </div>
+            <div class="row justify-content-evenly">
+              <h4 class="text-center fw-bold mt-3 mb-2" style="color: rgb(3, 11, 72);"></h4>
+              <hr>
+              <div class="col-11">
+                <span class="fw-bold">Username : </span>
+                <p class="ms-4">{{ basicdata.username }}</p>
+              </div>
+              <hr>
+              <div class="col-11">
+                <span class="fw-bold">Email : </span>
+                <p class="ms-4">{{ basicdata.email }}</p>
+              </div>
+              <hr>
 
-            <div class="col-12 col-md-6 mb-4">
+              <form method="post">
+                {% csrf_token %}
+                <h5 class="mt-3 fw-bold mb-3">Change Password</h5>
 
-                <div class="row shadow mb-3 p-3 ">
-                    <h5 class="mt-3 fw-bold mb-3">Personal Info</h5>
-                    <div class="col-8 ">{{ basicdata.sex }}</div>
+                {% if updated_password_successfully %}
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    Password updated successfully!
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endif %}
 
-                    <div class="mb-3">
-                      <label class="mb-2 fw-bold" for="first_name">First Name</label>
-                      <input id="first_name" type="text" class="form-control" name="user_firstname" value="{{ user_firstname }}" required autofocus />
-                      <div class="invalid-feedback">First Name is required</div>
-                    </div>
+                {% if messages %}
+                <div class="alert alert-danger" role="alert">
+                  {% for message in messages %}
+                    {{ message }}
+                  {% endfor %}
+                </div>
+                {% endif %}
 
-                    <div class="mb-3">
-                      <label class="mb-2 fw-bold" for="first_name">First Name</label>
-                      <input id="first_name" type="text" class="form-control" name="user_firstname" value="{{ user_firstname }}" required autofocus />
-                      <div class="invalid-feedback">First Name is required</div>
-                    </div>
-
-
-
+                <div class="mb-3">
+                  <label class="mb-2 fw-bold" for="current_password">Current Password</label>
+                  <input type="password" class="form-control" name="current_password" required />
+                  <div class="invalid-feedback">Current Password is required</div>
                 </div>
 
-                <div class="row shadow mb-3 p-3">
-                    <h5 class="mt-3 fw-bold mb-2">Hospital Branches</h5>
-
-                    <div class="" style="max-height:270px ; overflow-y:scroll">
-                        <div class="card mb-2 ">
-                            <div class="card-body ">
-                                <h5 class="card-title text-start">Hospital 1 (ID 897678) </h5>
-                                <div class="progress">
-                                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-success"
-                                        role="progressbar" aria-label="Animated striped example"
-                                        aria-valuenow="75" aria-valuemin="0   " aria-valuemax="100"
-                                        style="width: 75%"></div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="card mb-2 ">
-                            <div class="card-body ">
-                                <h5 class="card-title text-start">Hospital 2 (ID 856678) </h5>
-                                <div class="progress">
-                                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-info"
-                                        role="progressbar" aria-label="Animated striped example"
-                                        aria-valuenow="75" aria-valuemin="0   " aria-valuemax="100"
-                                        style="width: 45%"></div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="card mb-2 ">
-                            <div class="card-body ">
-                                <h5 class="card-title text-start">Hospital 3 (ID 856678) </h5>
-                                <div class="progress">
-                                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger"
-                                        role="progressbar" aria-label="Animated striped example"
-                                        aria-valuenow="75" aria-valuemin="0   " aria-valuemax="100"
-                                        style="width: 15%"></div>
-                                </div>
-                            </div>
-                        </div>
-
-
-
-                    </div>
+                <div class="mb-3">
+                  <label class="mb-2 fw-bold" for="new_password">New Password</label>
+                  <input type="password" class="form-control" name="new_password" required />
+                  <div class="invalid-feedback">New Password is required</div>
                 </div>
 
+                <div class="mb-3">
+                  <label class="mb-2 fw-bold" for="confirm_new_password">Confirm New Password</label>
+                  <input type="password" class="form-control" name="confirm_new_password" required />
+                  <div class="invalid-feedback">Confirm New Password is required</div>
+                </div>
+
+                <div class="mb-3">
+                  <button type="submit" class="btn btn-primary primary-color-background w-100" name="update_password">Change Password</button>
+                </div>
+              </form>
             </div>
+          </div>
+
+
+          <div class="col-12 col-md-6 mb-4">
+            <div class="row shadow mb-3 p-3 ">
+              <h5 class="mt-3 fw-bold mb-3">Personal Info</h5>
+              <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                {% if updated_profile_successfully %}
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    Profile updated successfully!
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endif %}
+
+                <div class="mb-3">
+                  <label class="mb-2 fw-bold" for="first_name">First Name</label>
+                  <input id="first_name" type="text" class="form-control" name="user_firstname" value="{{ basicdata.first_name }}" required autofocus />
+                  <div class="invalid-feedback">First Name is required</div>
+                </div>
+
+                <div class="mb-3">
+                  <label class="mb-2 fw-bold" for="last_name">Last Name</label>
+                  <input id="last_name" type="text" class="form-control" name="user_lastname" value="{{ basicdata.last_name }}" required autofocus />
+                  <div class="invalid-feedback">Last Name is required</div>
+                </div>
+
+                <div class="mb-3">
+                  <label class="mb-2 fw-bold" for="specialty">Specialty</label>
+                  <input id="specialty" type="text" class="form-control" name="specialty" value="{{ basicdata.doctors.specialty }}" required />
+                  <div class="invalid-feedback">Specialty is required for doctors</div>
+                </div>
+              
+                <div class="mb-3">
+                    <label class="mb-2 fw-bold" for="bio">Bio</label>
+                    <textarea id="bio" class="form-control" name="bio" required>{{ basicdata.doctors.bio }}</textarea>
+                    <div class="invalid-feedback">Bio is required for doctors</div>
+                </div>
+              
+                <div class="mb-3">
+                    <label class="mb-2 fw-bold" for="select_gender">Gender</label>
+                    <select class="form-select" aria-label="Default select example" name="user_gender" id="select_gender">
+                        <option value="Male" {% if basicdata.gender == 'Male' %}selected{% endif %}>Male</option>
+                        <option value="Female" {% if basicdata.gender == 'Female' %}selected{% endif %}>Female</option>
+                    </select>
+                </div>
+              
+                <div class="mb-3">
+                    <label class="mb-2 fw-bold" for="birthday">Birthday</label>
+                    <input id="birthday" type="date" class="form-control" name="birthday" value="{{ basicdata.birthday|date:'Y-m-d' }}" required />
+                    <div class="invalid-feedback">Birthday is invalid</div>
+                </div>
+                
+              
+                <div class="mb-3">
+                  <label class="mb-2 fw-bold" for="update_address_line">Address Line</label>
+                  <input id="update_address_line" type="text" class="form-control mb-2" name="address_line" value="{{ basicdata.id_address.address_line }}" placeholder="Address Line" required />
+                  <div class="invalid-feedback">Address is required</div>
+                </div>
+
+                <div class="mb-3">
+                  <label class="mb-2 fw-bold" for="region">Region</label>
+                  <input id="update_region" type="text" class="form-control mb-2" name="region" value="{{ basicdata.id_address.region }}" placeholder="Region" required />
+                  <div class="invalid-feedback">Region is invalid</div>
+                </div>
+
+                <div class="mb-3">
+                  <label class="mb-2 fw-bold" for="region">City</label>
+                  <input id="update_city" type="text" class="form-control mb-2" name="city" value="{{ basicdata.id_address.city }}" placeholder="City" required />
+                  <div class="invalid-feedback">Region is invalid</div>
+                </div>
+
+                <div class="mb-3">
+                  <label class="mb-2 fw-bold" for="code_postal">Code Postal</label>
+                  <input id="update_code_postal" type="text" class="form-control" name="code_postal" value="{{ basicdata.id_address.code_postal }}" placeholder="Code Postal" required />
+                  <div class="invalid-feedback">Code Postal is invalid</div>
+                </div>
+
+                <div class="mb-3 col-12 col-md-12">
+                  <label for="pic" class="form-label fw-bold"> Profile Avatar</label>
+                  <input type="file" class="form-control p-3"  name="profile_pic" id="pic"  >
+                </div>
+
+                <div class="mb-3">
+                  <button type="submit" class="btn btn-primary primary-color-background w-100" name="update_profile">Update</button>
+                </div>
+              </form>
+            </div>
+          </div>
 
         </div>
-
-
-          <!--<form method="POST" action="/faculty_profile/profile_UPdate">{% csrf_token %}
-              <a href="#"><input type="submit" value="Edit Profile"></a>
-          </form>-->
       </div>
     </div>
   </section>
