@@ -10,7 +10,15 @@ def doctor_dashboard(request):
 
 @login_required(login_url='/login')
 def doctor_profile(request):
-  return render(request,'doctors/doctor_profile.html')
+    if request.method == 'POST':
+        curruser = request.user.username
+        data = User.objects.get(user_id=curruser)
+        return render(request, 'doctor/doctor_profile_update.html', context={"userprofile": data})
+      
+    curruser = request.user.username
+    data = User.objects.get(username=curruser)
+    return render(request, 'doctors/doctor_profile.html', context={"basicdata": data})
+    
 
 @login_required(login_url='/login')
 def doctor_blogs(request):

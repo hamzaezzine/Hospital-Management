@@ -84,13 +84,12 @@
   </div>
 
   <div class="main-content">
-    <header class="d-flex justify-content-end align-items-center">
-    
-      <!-- Profile section -->
-      <div class="d-flex align-items-center">
-        <img src="{{ request.user.profile_pic.url }}" style="width: 30px; height: 30px; border-radius: 50%; overflow: hidden; background-color: blue; display: inline-block; vertical-align: middle; border: 3px solid #424a5b;">
+    <header class="d-flex  align-items-center">
+      <h2>{% block page_title %}{% endblock page_title %}</h2>
+      <a href="{% url 'doctor_profile' %}">
+        <img src="{{ request.user.profile_avatar.url }}" style="width: 30px; height: 30px; border-radius: 50%; overflow: hidden; background-color: blue; display: inline-block; vertical-align: middle; border: 3px solid #424a5b;">
         <span class="fw-bold fs-6 ms-1 text-dark me-4">{{ request.user.username|safe | truncatechars:"10" }}</span>
-      </div>
+      </a>
     </header>
     {% block content %}
     {% endblock content %}

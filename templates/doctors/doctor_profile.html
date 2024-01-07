@@ -1,0 +1,115 @@
+{% extends 'doctors/base.html' %}
+{% load static %}
+
+{% block title %} Profile {% endblock title %}
+{% block page_title %} Doctor Profile {% endblock page_title %}
+
+{% block content %}
+<main>
+  <section class="recent">
+    <div class="table-div">
+      <div class="table-card">
+        <div class="row p-3 justify-content-evenly">
+            <h2 class="text-center fw-bold mb-5" style="color: rgb(3, 11, 72);">My Profile</h2>
+            <div class="col-12 col-md-5  shadow mb-4">
+                <div class="text-center mt-4">
+                    <img src="{{ basicdata.profile_avatar.url }}"
+                        class="img-fluid shadow" alt="" style="width: 300px; height:300px; border-radius: 50%; border: 3px solid rgb(67, 67, 132);">
+
+                </div>
+                <div class="row justify-content-evenly">
+                    <h4 class="text-center fw-bold mt-3 mb-2" style="color: rgb(3, 11, 72);"></h4>
+                    <hr>
+                    <div class="col-11">
+                        <span class="fw-bold">Username : </span>
+                        <p class="ms-4">{{ basicdata.username }}</p>
+                    </div>
+                    <hr>
+                    <div class="col-11">
+                        <span class="fw-bold">Email : </span>
+                        <p class="ms-4">{{ basicdata.email }}</p>
+                    </div>
+                    <hr>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6 mb-4">
+
+                <div class="row shadow mb-3 p-3 ">
+                    <h5 class="mt-3 fw-bold mb-3">Personal Info</h5>
+                    <div class="col-8 ">{{ basicdata.sex }}</div>
+
+                    <div class="mb-3">
+                      <label class="mb-2 fw-bold" for="first_name">First Name</label>
+                      <input id="first_name" type="text" class="form-control" name="user_firstname" value="{{ user_firstname }}" required autofocus />
+                      <div class="invalid-feedback">First Name is required</div>
+                    </div>
+
+                    <div class="mb-3">
+                      <label class="mb-2 fw-bold" for="first_name">First Name</label>
+                      <input id="first_name" type="text" class="form-control" name="user_firstname" value="{{ user_firstname }}" required autofocus />
+                      <div class="invalid-feedback">First Name is required</div>
+                    </div>
+
+
+
+                </div>
+
+                <div class="row shadow mb-3 p-3">
+                    <h5 class="mt-3 fw-bold mb-2">Hospital Branches</h5>
+
+                    <div class="" style="max-height:270px ; overflow-y:scroll">
+                        <div class="card mb-2 ">
+                            <div class="card-body ">
+                                <h5 class="card-title text-start">Hospital 1 (ID 897678) </h5>
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-success"
+                                        role="progressbar" aria-label="Animated striped example"
+                                        aria-valuenow="75" aria-valuemin="0   " aria-valuemax="100"
+                                        style="width: 75%"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card mb-2 ">
+                            <div class="card-body ">
+                                <h5 class="card-title text-start">Hospital 2 (ID 856678) </h5>
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-info"
+                                        role="progressbar" aria-label="Animated striped example"
+                                        aria-valuenow="75" aria-valuemin="0   " aria-valuemax="100"
+                                        style="width: 45%"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card mb-2 ">
+                            <div class="card-body ">
+                                <h5 class="card-title text-start">Hospital 3 (ID 856678) </h5>
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger"
+                                        role="progressbar" aria-label="Animated striped example"
+                                        aria-valuenow="75" aria-valuemin="0   " aria-valuemax="100"
+                                        style="width: 15%"></div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+
+          <!--<form method="POST" action="/faculty_profile/profile_UPdate">{% csrf_token %}
+              <a href="#"><input type="submit" value="Edit Profile"></a>
+          </form>-->
+      </div>
+    </div>
+  </section>
+</main>
+{% endblock %}

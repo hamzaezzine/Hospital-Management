@@ -19,3 +19,8 @@
 .secondary-color-background{
   background-color: var(--secondary-color);
 }
+
+
+.main-content a{
+  text-decoration: none !important;
+}
