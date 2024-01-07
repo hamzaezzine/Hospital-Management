@@ -1,0 +1,184 @@
+{% extends 'doctors/base.html' %}
+{% load static %}
+
+{% block title %} Dashboard {% endblock title %}
+
+{% block content %}
+<main>
+  <h2 class="dash-title">Doctor Dashboard</h2>
+    
+  <div class="row justify-content-between">
+
+    <div class=" bg-light  p-2 shadow col-12 col-lg-4 mb-3" style="">
+      <h5 class="mt-2"><i class="ms-2 bi bi-briefcase-fill"></i> Today Appointments</h5>
+      <table class="table mt-4">
+          <thead>
+            <tr>
+              <th scope="col">P1</th>
+              <th scope="col">P2</th>
+              <th scope="col">P3</th>
+              <th scope="col">P4</th>
+              <th scope="col">P5</th>
+              <th scope="col">P6</th>
+              <th scope="col">P7</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Ap-1</td>
+              <td>Ap-1</td>
+              <td>--</td>
+              <td>Ap-1</td>
+              <td>Ap-1</td>
+              <td>--</td>
+              <td>Ap-1</td>
+              
+            </tr>
+          </tbody>
+      </table>
+    </div>
+
+
+      <div class=" bg-light  p-2 shadow col-12 col-lg-4 mb-3">
+          <div>
+              <div class="d-flex justify-content-between">
+                  <h5 class="mt-2 mb-2"><i class="ms-2 bi bi-alarm-fill"></i> Remainder</h5>
+                  <!-- Button trigger modal -->
+                  <button type="button" class="btn text-end" data-bs-toggle="modal" data-bs-target="#Remainder" >
+                      <i class="bi bi-calendar-plus  fs-5"></i>
+                  </button>
+              </div>
+            
+          </div>
+          
+  
+              <!-- Modal -->
+              <div class="modal fade" id="Remainder" tabindex="-1" aria-labelledby="Remainder" aria-hidden="true">
+                  <div class="modal-dialog">
+                  <div class="modal-content">
+                      <div class="modal-header">
+                          <div>  <h5 class="modal-title" id="exampleModalLabel">Add  Remainder</h5> </div>
+                          <div > <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> </div>
+                      </div>
+                      <form action="">
+                      <div class="modal-body">
+                              <div class="mb-3">
+                                  <label for="title" class="form-label"> <i class="bi bi-calendar"></i> Tittle</label>
+                                  <input type="text" class="form-control" id="title" placeholder="Enter Remainder title">
+                              </div>
+                              <div class="mb-3">
+                                  <label for="date" class="form-label"> <i class="bi bi-calendar"></i> Date</label>
+                                  <input type="Date" class="form-control" id="date" aria-describedby="date">
+                              </div>
+
+                              <div class="form-floating">
+                                  <textarea class="form-control" placeholder="Leave a comment here" id="text" style="height: 100px"></textarea>
+                                  <label for="text">Comments</label>
+                              </div>
+                      </div>
+                      <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-primary">Add</button>
+                      </div>
+                      </form>
+                  </div>
+                  </div>
+              </div>
+              <div style = "overflow-y: scroll; height: 130px;">
+                  <div class="alert " role="alert">
+                      <h6 class="alert-heading fw-bold">Remainder Tittle</h6>
+                      <p class="">This is a friendly reminder that you have an appointment with [Patient's Name] on [Date] at [Time].</p>
+                  </div>
+              </div>
+      </div>
+
+
+      <div class=" bg-light p-2  shadow col-12 col-lg-3 mb-3">
+          <h5 class="mt-2"><i class=" ms-2 bi bi-pie-chart-fill"></i> Details</h5>
+          <div class="summary-single">
+              <span class="ti-id-badge"></span>
+              <div>
+                  <h5>5</h5>
+                  <small>Number of Branches</small>
+              </div>
+          </div>
+          <div class="summary-single">
+              <span class="ti-face-smile"></span>
+              <div>
+                  <h5>12</h5>
+                  <small>Number of Patients</small>
+              </div>
+          </div>
+      </div>
+      
+  </div>
+    
+    
+    <section class="recent">
+        <div class="activity-grid">
+            <div class="activity-card">
+                <div>
+                    <canvas id="myChart"></canvas>
+                  </div>
+            </div>
+            
+            <div class="summary">
+              
+            
+                
+                <div class="bday-card shadow">
+                    <div class="bday-flex justify-content-between">
+                        <div class="col-3">
+                            <img src="https://missionvet.ca/wp-content/uploads/2020/01/User-Profile-PNG-1.png" class="img-fluid" style="width: 50px; border-radius: 50%;">
+                        </div>
+                        <div class="bday-info col-8 ">
+                            <h5>Doctor</h5>
+                            <small>Birthday Today</small><br>   
+                            <button class="btn btn-dark  btn-sm">
+                                <span class="ti-gift"></span>
+                                Wish him
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!--graph scripts-->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const labels = [
+          'January',
+          'February',
+          'March',
+          'April',
+          'May',
+          'June',
+        ];
+      
+        const data = {
+          labels: labels,
+          datasets: [{
+            label: 'My Statistics',
+            backgroundColor: 'rgb(25, 9, 32)',
+            borderColor: 'rgb(255, 99, 132)',
+            data: [0, 10, 5, 2, 20, 30, 45],
+          }]
+        };
+      
+        const config = {
+          type: 'bar',
+          data: data,
+          options: {}
+        };
+      </script>
+      <script>
+        const myChart = new Chart(
+          document.getElementById('myChart'),
+          config
+        );
+      </script>
+
+</main>
+{% endblock  %}

@@ -89,10 +89,10 @@ def login_view(request):
       login(request, user)
 
       if Doctors.objects.filter(user=user).exists():
-        return redirect('doctor_profile')
+        return redirect('doctor_dashboard')
 
       elif Patients.objects.filter(user=user).exists():
-        return redirect('patient_profile')
+        return redirect('patient_dashboard')
       
     else:
         return render(request, 'users/login.html', context={'errorlogin': 1})
