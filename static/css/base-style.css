@@ -31,6 +31,8 @@
   border: 3px solid rgb(67, 67, 132);
 }
 
+.user-profile span,
+.user-profile label,
 .upload-blog *{
-  color: #000 !important;
+  color: #4b505e !important;
 }
