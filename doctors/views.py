@@ -3,6 +3,8 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
+from django.core.paginator import Paginator
+from .models import Blogs, Comments, Category
 
 User = get_user_model()
 
@@ -61,8 +63,26 @@ def doctor_profile(request):
 
 @login_required(login_url='/login')
 def doctor_blogs(request):
+    blogs = Blogs.objects.filter(is_published=True).order_by('-posted_at')
+    categories = Category.objects.all()
+
+    paginator = Paginator(blogs, 5)
+    page = request.GET.get('page')
+    blogs_page = paginator.get_page(page)
+
+    context = {
+        'blogs': blogs_page,
+        'categories': categories,
+    }
+
+    return render(request, 'doctors/doctor_blogs.html', context)
+
+
+@login_required(login_url='/login')
+def search_blogs(request):
   return render(request,'doctors/doctor_blogs.html')
-  
+
+
 @login_required(login_url='/login')
 def doctor_drafts(request):
   return render(request,'doctors/doctor_profile.html')

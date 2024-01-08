@@ -1,0 +1,72 @@
+[
+  {
+    "model": "doctors.category",
+    "pk": 1,
+    "fields": {
+      "name": "General health"
+    }
+  },
+  {
+    "model": "doctors.category",
+    "pk": 2,
+    "fields": {
+      "name": "Medical Research"
+    }
+  },
+  {
+    "model": "doctors.category",
+    "pk": 3,
+    "fields": {
+      "name": "Mental health"
+    }
+  },
+  {
+    "model": "doctors.category",
+    "pk": 4,
+    "fields": {
+      "name": "Men's Health"
+    }
+  },
+  {
+    "model": "doctors.category",
+    "pk": 5,
+    "fields": {
+      "name": "Women's Health"
+    }
+  },
+  {
+    "model": "doctors.category",
+    "pk": 6,
+    "fields": {
+      "name": "Neurology"
+    }
+  },
+  {
+    "model": "doctors.category",
+    "pk": 7,
+    "fields": {
+      "name": "Oncology"
+    }
+  },
+  {
+    "model": "doctors.category",
+    "pk": 8,
+    "fields": {
+      "name": "Gastroenterology"
+    }
+  },
+  {
+    "model": "doctors.category",
+    "pk": 9,
+    "fields": {
+      "name": "Endocrinology"
+    }
+  },
+  {
+    "model": "doctors.category",
+    "pk": 10,
+    "fields": {
+      "name": "Infectious Diseases"
+    }
+  }
+]
