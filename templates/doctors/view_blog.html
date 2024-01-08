@@ -1,0 +1,192 @@
+{% extends 'doctors/base.html' %}
+{% load static %}
+
+{% block title %} Blog Article {% endblock title %}
+{% block page_title %} Blog Title {% endblock page_title %}
+
+{% block content %}
+<main>
+  <section class="blog_area sec_pad" style="margin-top:-8%;">
+    <div class="container">
+      <h1>Blog Posts </h1>
+      <div class="row">
+        <div class="col-lg-8">
+          <div class="blog_list_item mb_50">
+            <img class="img-fluid" src="{{blog.thumbnail.url}}" alt="" style="height:100%;width:100%;">
+            <div class="blog_content">
+              <div class="post_date">
+                <h2>{{blog.posted_at|date:'d'}} <span>{{blog.posted_at|date:'F'}}</span></h2>
+              </div>
+              <div class="entry_post_info">
+                By: <a href="#">{{blog.doctor}}</a>
+                <a href="#">{{blog.id_category}}</a>
+              </div>
+              <a href="#">
+                <h5 class="f_p f_size_20 f_500 t_color mb_20">Title : &nbsp;{{blog.title}}</h5>
+              </a>
+              <p class="f_400 mb-30">{{blog.description | safe}}</p>
+              <a href="#">
+                <h5 class="f_p f_size_20 f_500 t_color mb_20">Summary </h5>
+                <p class="f_400 mb-30">{{blog.summary | safe}}</p>
+              </a>
+            </div>
+          </div>
+
+          <!-- End Recent Posts -->
+          <div class="blog_post">
+            <div class="widget_title">
+              <h3 class="f_p f_size_20 t_color3">Related Post</h3>
+              <div class="border_bottom"></div>
+            </div>
+
+            <div class="row">
+              {% for blog in related_blogs %}
+
+              <div class="col-lg-4 col-sm-6">
+                <div class="blog_post_item">
+                  <div class="blog_img">
+                    <a href="/blog/{{blog.blog_id}}">
+                      <img src="{{blog.thumbnail.url}}" alt="">
+                    </a>
+                  </div>
+                  <div class="blog_content">
+                    <div class="entry_post_info">
+                      <a href="#">{{blog.posted_at}}</a>
+                    </div>
+                    <a href="/blog/{{blog.title}}">
+                      <h5 class="f_p f_size_16 f_500 t_color">{{blog.title}}</h5>
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              {% endfor %}
+              <div class="pagination">
+                <span class="step-links">
+                  {% if blogs.has_previous %}
+                    <a href="?page=1">&laquo;First</a>
+                    <a href="?page={{ blogs.previous_page_number }}">Previous</a>
+                  {% endif %}
+
+                  {% comment %} <span class="current">
+                    Page {{ blogs.number }} of {{ blogs.paginator.num_pages }}.
+                  </span> {% endcomment %}
+
+                  {% if blogs.has_next %}
+                  <a href="?page={{ blogs.next_page_number }}">Next</a>
+                  <a href="?page={{ blogs.paginator.num_pages }}">Last &raquo;</a>
+                  {% endif %}
+                </span>
+              </div>
+            </div>
+          </div>
+          <!-- End Recent Posts -->
+
+          <!-- Comment -->
+
+          <div class="widget_title mt_100">
+            <h3 class="f_p f_size_20 t_color3"> Comments( {{ comments.count }} )</h3>
+            <div class="border_bottom"></div>
+          </div>
+          <ul class="comment-box list-unstyled mb-0">
+            {% for comment in comments %}
+              <li class="post_comment">
+                <div class="media post_author mt_60">
+                  <div class="media-left">
+                    <img class="rounded-circle" src="{{ comment.user.profile_avatar.url }}" alt=""  style="width: 70px; height: 70px;">
+                    <a href="#" class="replay"><i class="ti-share"></i></a>
+                </div>
+                  <div class="media-body">
+                    <h5 class="f_p t_color3 f_size_18 f_500">{{ comment.user.username }}</h5>
+                    <h6 class="f_p f_size_15 f_400 mb_20">{{ comment.commented_at }}</h6>
+                    <p>{{ comment.content }}</p>
+                  </div>
+                </div>
+              </li>
+            {% endfor %}
+          </ul>
+
+          <!-- Comment Form section -->
+          <div class="widget_title mt_100">
+            <h3 class="f_p f_size_20 t_color3">Leave a Comment</h3>
+            <div class="border_bottom"></div>
+          </div>
+
+          <form class="get_quote_form row" action="{% url 'comment' %}" method="post">
+            {% csrf_token %}
+            <div class="col-md-12 form-group">
+              <textarea class="form-control message" name='comment' placeholder="Comment"></textarea>
+            </div>
+            <div class="col-md-12 form-group">
+              <input type="hidden" class="form-control" name='id' value="{{blog.blog_id}}" id="website"
+                placeholder="Website (optional)">
+            </div>
+
+            <div class="col-md-12">
+              <button class="btn btn_three btn_hover f_size_15 f_500" type="submit">Post Comment</button>
+            </div>
+          </form>
+
+        </div>
+
+
+        <div class="col-lg-4">
+          <div class="blog-sidebar">
+            <div class="widget sidebar_widget widget_search">
+
+              <form action="{% url 'search_blogs' %}" class="search-form input-group" method='get'>
+                <input type="search" class="form-control widget_input" name='keyword' placeholder="Search Here">
+                <button type="submit"><i class="ti-search"></i></button>
+              </form>
+
+            </div>
+
+            <div class="widget sidebar_widget widget_recent_post mt_60">
+              <div class="widget_title">
+                  <h3 class="f_p f_size_20 t_color3">Recent blogs</h3>
+                  <div class="border_bottom"></div>
+              </div>
+          
+              {% for recent_blog in recent_blogs %}
+                  <div class="media post_item">
+                      <a href="/blog/{{recent_blog.blog_id}}">
+                          <img src="{{recent_blog.thumbnail.url}}" style="margin-left:5%;" class='img-responsive img-fluid img-thumbnail' height="75" width="200" alt="">
+                      </a>
+                      <div class="media-body">
+                          <a href="/blog/{{recent_blog.blog_id}}">
+                              <h3 class="f_size_16 f_p f_400"><b>Desc :</b> &nbsp;{{recent_blog.title}}</h3>
+                          </a>
+                          <div class="entry_post_info">
+                              By: {{recent_blog.doctor}} / {{recent_blog.posted_at}}
+                          </div>
+                      </div>
+                  </div>
+              {% endfor %}
+          </div>
+          
+
+            <div class="widget sidebar_widget widget_categorie mt_60">
+              <div class="widget_title">
+                <h3 class="f_p f_size_20 t_color3">Categories</h3>
+                <div class="border_bottom"></div>
+              </div>
+              <ul class="list-unstyled">
+                {% for category in categories %}
+                  <li> 
+                    <a href="/category/{{category.name}}">
+                      <span>{{category.name}}</span>
+                      <em></em></a> 
+                  </li>
+                {% endfor %}
+              </ul>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+</main>
+
+{% endblock %}

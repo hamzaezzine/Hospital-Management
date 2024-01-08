@@ -1,5 +1,5 @@
 from django.db import models
-from users.models import Users, Address
+from users.models import Users, Doctors
 from datetime import datetime
 
 class Category(models.Model):
@@ -23,7 +23,8 @@ class Blogs(models.Model):
   posted_at = models.DateField(default=datetime.now)
   thumbnail = models.ImageField(upload_to="blogs/thumbnail")
   id_category = models.ForeignKey(Category, on_delete=models.PROTECT)
-  doctor = models.ForeignKey(Users, limit_choices_to={'groups__name': 'Doctors'}, on_delete=models.CASCADE)
+  doctor = models.ForeignKey(Doctors, on_delete=models.CASCADE)
+
 
   class Meta:
     verbose_name = "Blog"

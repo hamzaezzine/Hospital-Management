@@ -47,7 +47,7 @@ class Doctors(models.Model):
     verbose_name_plural = "Doctors"
     
   def __str__(self):
-      return self.specialty
+      return self.user.get_full_name() or self.user.username
 
       
 class Patients(models.Model):
@@ -59,4 +59,4 @@ class Patients(models.Model):
     verbose_name_plural = "Patients"
   
   def __str__(self):
-      return self.insurance
+      return self.user.get_full_name() or self.user.username

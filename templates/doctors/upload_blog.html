@@ -1,0 +1,103 @@
+{% extends 'doctors/base.html' %}
+{% load static %}
+
+{% block title %} Upload {% endblock title %}
+{% block page_title %} Upload Blog {% endblock page_title %}
+
+{% block content %}
+<main class="upload-blog text-dark"> 
+  <section class="recent">
+    <div class="table-div">
+      <div class="table-card ">
+        <center>
+          <h3 class="text-dark fw-bold">Upload Blog</h3>
+        </center>   
+
+        <div class="time-table p-5">
+          <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% if messages %}
+              {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show mt-3" role="alert">
+                  {{ message }}
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+              {% endfor %}
+            {% endif %}
+
+            <div class="row justify-content-evenly">
+              <div class="mb-3 col-12 col-md-6">
+                <label for="title" class="form-label fw-bold">
+                  <i class="bi bi-clipboard2-fill"></i> 
+                  Blog Title
+                </label>
+                <input type="text" class="form-control p-3"  name="assign_title" id="title"  placeholder="Enter title for Blog" required  >
+              </div>
+
+              <div class="mb-3 col-12 col-md-6">
+                <label for="title" class="form-label fw-bold"> 
+                  <i class="bi bi-clipboard2-fill"></i> 
+                  Blog Author
+                </label>
+                <input type="text" class="form-control p-3"  name="assign_title" id="title"  placeholder="" value="{{ user_name }}" disabled >
+              </div>
+
+              <div class="mb-3 col-12 col-md-6">
+                <label for="id" class="form-label fw-bold"> 
+                  <i class="bi bi-diagram-3-fill"></i>  
+                  Category
+                </label>
+                <select class="form-select p-3  " aria-label="Default select example" name="assign_class" required>
+                  <option value="">---- Select Category ----</option>
+                  {% for j in total_categories%}
+                    <option value="{{ j.name }}">{{j.name}}</option>
+                  {% endfor %}
+                </select>
+              </div>
+
+              <div class="mb-3 col-12 col-md-6">
+                <label for="file" class="form-label fw-bold"> 
+                  <i class="bi bi-file-earmark-font-fill"></i> 
+                  Blog Image 
+                </label>
+                <input type="file" class="form-control p-3" id="file" name="assignupload" required>
+              </div>
+
+              <div class="col-12 mt-3">
+                <div class="form-floating">
+                  <textarea class="form-control" name="assign_desc" placeholder="Short Description" id="floatingTextarea2" style="height: 100px"></textarea>
+                  <label for="floatingTextarea2 ">
+                    Content  
+                    <i class="bi bi-chat-square-dots"></i>
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-12 mt-3">
+                <div class="form-floating">
+                  <textarea class="form-control" name="assign_des" placeholder="Summary" id="floatingTextarea3" style="height: 100px"></textarea>
+                  <label for="floatingTextarea2 ">  
+                    Summary  
+                    <i class="bi bi-chat-square-dots"></i>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="d-flex justify-content-between mt-4">
+              <button type="submit" name="upload_draft_blog" class="btn btn-primary primary-color-background">
+                Save as draft
+              </button>
+
+              <button type="submit" name="upload_blog" value="Submit" class="btn btn-primary primary-color-background ">
+                Submit
+              </button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+{% endblock %}

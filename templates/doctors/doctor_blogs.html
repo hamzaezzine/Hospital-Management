@@ -6,7 +6,6 @@
 
 {% block content %}
 <main>
-
   <section class="blog_area sec_pad" style="margin-top:-8%;">
     <div class="container">
       <h1>Hospital Blogs </h1>
@@ -15,41 +14,40 @@
         <br>
         <h4>Search results for keyword {{ keyword }} : <h4>
       {% endif %}
-      
+
       <div class="row">
         <div class="col-lg-8">
-          {% for blog in  blogs%}
+          {% for blog in blogs %}
             <div class="blog_list_item mb_50">
               <img class="img-fluid" src="{{blog.thumbnail.url}}" alt="" style="height:90%;width:100%">
               <div class="blog_content">
-                <div class="blog_date">
-                  <h2>{{blog.bloged_at|date:'d'}} <span>{{blog.bloged_at|date:'F'}}</span></h2>
+                <div class="post_date">
+                  <h2>{{blog.posted_at|date:'d'}} <span>{{blog.posted_at|date:'F'}}</span></h2>
                 </div>
-                <div class="entry_blog_info">
-                    By: <a href="#">{{blog.user}}</a>
-                    
-                    <a href="#">{{blog.category}}</a>
+                <div class="entry_post_info">
+                  By: <a href="#">{{blog.doctor}}</a>
+                  <a href="#">{{blog.id_category}}</a>
                 </div>
-                <a href="/blog/{{blog.title}}">
-                    <h5 class="f_p f_size_20 f_500 t_color mb_20">Title : &nbsp;{{blog.title}}</h5>
+                <a href="/blog/{{blog.blog_id}}">
+                  <h5 class="f_p f_size_20 f_500 t_color mb_20">Title : &nbsp;{{blog.title}}</h5>
                 </a>
                 <p class="f_400 mb_20">{{blog.description |safe|truncatewords:"15"|linebreaks }}</p>
-                <a href="/blog/{{blog.title}}" class="learn_btn_two">Read More <i class="ti-arrow-right"></i></a>
+                <a href="/blog/{{blog.blog_id}}" class="learn_btn_two">Read More <i class="ti-arrow-right"></i></a>
               </div>
             </div>
           {% endfor %}
-        
+
           <div class="pagination">
             <span class="step-links">
               {% if blogs.has_previous %}
                 <a href="?page=1">&laquo;First</a>
                 <a href="?page={{ blogs.previous_page_number }}">Previous</a>
               {% endif %}
-        
+
               <span class="current" style="color:black;">
                 Page {{ blogs.number }} of {{ blogs.paginator.num_pages }}.
               </span>
-        
+
               {% if blogs.has_next %}
                 <a href="?page={{ blogs.next_page_number }}">Next</a>
                 <a href="?page={{ blogs.paginator.num_pages }}">Last &raquo;</a>
@@ -60,56 +58,58 @@
         </div>
         <div class="col-lg-4">
           <div class="blog-sidebar" style="margin-top:-12%;">
-              <div class="widget sidebar_widget widget_search">
+            <div class="widget sidebar_widget widget_search">
 
-                <form action="{% url 'search_blogs' %}" class="search-form input-group" method='get'> 
-                  <input type="search" class="form-control widget_input" name='keyword' placeholder="Search Here">
-                  <button type="submit"><i class="ti-search"></i></button>
-                </form>
+              <form action="{% url 'search_blogs' %}" class="search-form input-group" method='get'> 
+                <input type="search" class="form-control widget_input" name='keyword' placeholder="Search Here">
+                <button type="submit"><i class="ti-search"></i></button>
+              </form>
 
+            </div>
+
+            <div class="widget sidebar_widget widget_recent_post mt_60">
+              <div class="widget_title">
+                <h3 class="f_p f_size_20 t_color3">Recent blogs</h3>
+                <div class="border_bottom"></div>
               </div>
 
-              <div class="widget sidebar_widget widget_recent_blog mt_60">
-                <div class="widget_title">
-                  <h3 class="f_p f_size_20 t_color3">Recent blogs</h3>
-                  <div class="border_bottom"></div>
-                </div>
-
-                {% for blog in blogs%}
-                  <div class="media blog_item">
-                    <a href="/blog/{{blog.title}}">
-                    <img src="{{blog.thumbnail.url}}"style="margin-left:5%;" class='img-responsive img-fluid img-thumbnail' height="75" width="200" alt=""></a>
-                    <div class="media-body">
-                      <a href="/blog/{{blog.title}}">
-                        <h3 class="f_size_16 f_p f_400"><b>Desc :</b> &nbsp;{{blog.title}}</h3>
-                      </a>
-                      <div class="entry_blog_info">
-                        By: <a href="#">{{blog.user}}</a>
-                        <a href="#">{{blog.bloged_at}}</a>
-                      </div>
+              {% for blog in blogs %}
+                <div class="media post_item">
+                  <a href="/blog/{{blog.blog_id}}">
+                  <img src="{{blog.thumbnail.url}}"style="margin-left:5%;" class='img-responsive img-fluid img-thumbnail' height="75" width="200" alt=""></a>
+                  <div class="media-body">
+                    <a href="/blog/{{blog.blog_id}}">
+                      <h3 class="f_size_16 f_p f_400"><b>Desc :</b> &nbsp;{{blog.title}}</h3>
+                    </a>
+                    <div class="entry_post_info">
+                      By: {{blog.doctor}} /  {{blog.posted_at}}
                     </div>
                   </div>
-                {% endfor %}
-              </div>
-
-              <div class="widget sidebar_widget widget_categorie mt_60">
-                <div class="widget_title">
-                    <h3 class="f_p f_size_20 t_color3">Categories</h3>
-                    <div class="border_bottom"></div>
                 </div>
-                <ul class="list-unstyled">
-                  {% for category in categories %}
-                    <li> 
-                      <a href="/category/{{category.name}}">
-                        <span>{{category.name}}</span>
-                        <em></em>
-                      </a> 
-                    </li>
-                  {% endfor %}
-                </ul>
+              {% endfor %}
+            </div>
+
+            <div class="widget sidebar_widget widget_categorie mt_60">
+              <div class="widget_title">
+                <h3 class="f_p f_size_20 t_color3">Categories</h3>
+                <div class="border_bottom"></div>
               </div>
+              <ul class="list-unstyled">
+                {% for category in categories %}
+                  <li> 
+                    <a href="/category/{{category.name}}">
+                      <span>{{category.name}}</span>
+                      <em></em>
+                    </a> 
+                  </li>
+                {% endfor %}
+              </ul>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
   </section>
 </main>
+
 {% endblock %}

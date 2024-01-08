@@ -30,3 +30,7 @@
   border-radius: 50%; 
   border: 3px solid rgb(67, 67, 132);
 }
+
+.upload-blog *{
+  color: #000 !important;
+}
