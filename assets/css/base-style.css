@@ -31,6 +31,17 @@
   border: 3px solid rgb(67, 67, 132);
 }
 
-.upload-blog{
-  color: #000;
+.user-profile span,
+.user-profile label{
+  color: #4b505e !important;
+}
+
+.edit-draft-btn {
+  color: #fff;
+  background-color:var(--secondary-color);
+  width:150px;
+  position: absolute;
+  right:0;
+  margin-right:19%;
+  bottom:30px;
 }
