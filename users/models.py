@@ -18,7 +18,7 @@ class Address(models.Model):
 
 
 class Users(AbstractUser):
-    email = models.CharField(max_length=50)
+    email = models.CharField(max_length=50,unique=True)
     username = models.CharField(max_length=50, unique=True)
     password = models.CharField(max_length=200)
     first_name = models.CharField(max_length=50)
@@ -36,6 +36,10 @@ class Users(AbstractUser):
     def __str__(self):
       return self.username
 
+class Reste_token(models.Model):
+   user = models.ForeignKey(Users,on_delete=models.CASCADE)
+   email = models.CharField(max_length = 50,unique=True)
+   token = models.CharField(max_length = 50)
 
 class Doctors(models.Model):
   user = models.OneToOneField(Users, on_delete=models.CASCADE, primary_key=True)

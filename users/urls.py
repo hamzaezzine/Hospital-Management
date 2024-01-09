@@ -8,8 +8,8 @@ urlpatterns = [
     path('', login_view, name='login'),
     path('register/', register, name='register'),
     path('login/', login_view, name='login'),
-    path('forgot/', forgot_view, name='forgot'),
-    path('reset/', reset_view, name='reset'),
+    path('password-reset/', forgot_view, name='password-reset'),
+    path('reset/<str:token>/', reset_view, name='reset'),
     path('logout/', logout_view, name='logout'),
 ]
 
