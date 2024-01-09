@@ -2,13 +2,16 @@
 {% load static %}
 
 {% block title %} Blog Article {% endblock title %}
-{% block page_title %} Blog Title {% endblock page_title %}
+
+{% block page_title %}
+  {{ blog.title|slice:":50"|wordwrap:50|default:'' }}{% if blog.title|length > 50 %}...{% endif %}
+{% endblock page_title %}
 
 {% block content %}
 <main>
   <section class="blog_area sec_pad" style="margin-top:-8%;">
     <div class="container">
-      <h1>Blog Posts </h1>
+      {% comment %} <h1>Blog </h1> {% endcomment %}
       <div class="row">
         <div class="col-lg-8">
           <div class="blog_list_item mb_50">

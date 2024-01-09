@@ -123,8 +123,58 @@ def blogs_category(request, cat):
   return render(request, 'doctors/doctor_blogs.html', context)
 
 
+# @login_required(login_url='/login')
+# def upload_blog(request):
+#   if request.method == 'POST':
+#     title = request.POST.get('assign_title') 
+#     category_name = request.POST.get('assign_class')
+#     category = Category.objects.get(name=category_name)
+#     image = request.FILES.get('assignupload')
+#     description = request.POST.get('assign_desc')
+#     summary = request.POST.get('assign_des')
+
+#     is_published = request.POST.get('upload_blog') == 'Submit'
+    
+#     user = request.user 
+#     author = get_object_or_404(Doctors, user=user)
+
+
+#     blog = Blogs(
+#       title=title,
+#       doctor=author,  
+#       id_category=category,
+#       thumbnail=image,
+#       description=description,
+#       summary=summary,
+#       is_published=is_published,
+#       posted_at=datetime.now(), 
+#     )
+
+#     blog.save()
+
+#     if is_published:
+#       messages.success(request, 'Blog successfully published!')
+#     else:
+#       messages.success(request, 'Blog saved as draft.')
+
+
+#   total_categories = Category.objects.all()
+
+#   context = {
+#       'user_name': request.user.username,
+#       'total_categories': total_categories,
+#   }
+
+#   return render(request, 'doctors/upload_blog.html', context)
+
+
 @login_required(login_url='/login')
-def upload_blog(request):
+def upload_blog(request, blog_id=None):
+  if blog_id:
+    blog = get_object_or_404(Blogs, pk=blog_id)
+  else:
+    blog = Blogs()
+
   if request.method == 'POST':
     title = request.POST.get('assign_title') 
     category_name = request.POST.get('assign_class')
@@ -134,35 +184,34 @@ def upload_blog(request):
     summary = request.POST.get('assign_des')
 
     is_published = request.POST.get('upload_blog') == 'Submit'
-    
+
     user = request.user 
     author = get_object_or_404(Doctors, user=user)
 
-
-    blog = Blogs(
-      title=title,
-      doctor=author,  
-      id_category=category,
-      thumbnail=image,
-      description=description,
-      summary=summary,
-      is_published=is_published,
-      posted_at=datetime.now(), 
-    )
+    blog.title = title
+    blog.doctor = author
+    blog.id_category = category
+    blog.thumbnail = image
+    blog.description = description
+    blog.summary = summary
+    blog.is_published = is_published
+    blog.posted_at = datetime.now()
 
     blog.save()
 
     if is_published:
-      messages.success(request, 'Blog successfully published!')
+        messages.success(request, 'Blog successfully published!')
     else:
-      messages.success(request, 'Blog saved as draft.')
+        messages.success(request, 'Blog saved as draft.')
 
+    return redirect('upload_blog') 
 
   total_categories = Category.objects.all()
 
   context = {
-      'user_name': request.user.username,
-      'total_categories': total_categories,
+    'user_name': request.user.username,
+    'total_categories': total_categories,
+    'blog': blog,
   }
 
   return render(request, 'doctors/upload_blog.html', context)
@@ -204,13 +253,44 @@ def post_comment(request):
 
 
 @login_required(login_url='/login')
-def myblogs(request):
-  return render(request,'doctors/doctor_profile.html')
+def doctor_myblogs(request):
+    user = request.user
+    author = get_object_or_404(Doctors, user=user)
+    
+    blogs = Blogs.objects.filter(doctor=author).order_by('-posted_at')
+    categories = Category.objects.all()
+
+    paginator = Paginator(blogs, 5)
+    page = request.GET.get('page')
+    blogs_page = paginator.get_page(page)
+
+    context = {
+        'blogs': blogs_page,
+        'categories': categories,
+    }
+
+    return render(request, 'doctors/doctor_blogs.html', context)
+
 
 
 @login_required(login_url='/login')
 def doctor_drafts(request):
-  return render(request,'doctors/doctor_profile.html')
+    user = request.user
+    author = get_object_or_404(Doctors, user=user)
+
+    drafts = Blogs.objects.filter(doctor=author, is_published=False).order_by('-posted_at')
+    categories = Category.objects.all()
+
+    paginator = Paginator(drafts, 5)
+    page = request.GET.get('page')
+    drafts_page = paginator.get_page(page)
+
+    context = {
+        'drafts': drafts_page,
+        'categories': categories,
+    }
+
+    return render(request, 'doctors/doctor_drafts.html', context)
 
 
 @login_required(login_url='/login')

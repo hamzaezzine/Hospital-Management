@@ -32,7 +32,16 @@
 }
 
 .user-profile span,
-.user-profile label,
-.upload-blog *{
+.user-profile label{
   color: #4b505e !important;
+}
+
+.edit-draft-btn {
+  color: #fff;
+  background-color:var(--secondary-color);
+  width:150px;
+  position: absolute;
+  right:0;
+  margin-right:19%;
+  bottom:30px;
 }

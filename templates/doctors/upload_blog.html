@@ -31,7 +31,7 @@
                   <i class="bi bi-clipboard2-fill"></i> 
                   Blog Title
                 </label>
-                <input type="text" class="form-control p-3"  name="assign_title" id="title"  placeholder="Enter title for Blog" required  >
+                <input type="text" class="form-control p-3"  name="assign_title" id="title" value="{{ blog.title }}"  placeholder="Enter title for Blog" required  >
               </div>
 
               <div class="mb-3 col-12 col-md-6">
@@ -47,10 +47,10 @@
                   <i class="bi bi-diagram-3-fill"></i>  
                   Category
                 </label>
-                <select class="form-select p-3  " aria-label="Default select example" name="assign_class" required>
+                <select class="form-select p-3" aria-label="Default select example" name="assign_class" required>
                   <option value="">---- Select Category ----</option>
-                  {% for j in total_categories%}
-                    <option value="{{ j.name }}">{{j.name}}</option>
+                  {% for j in total_categories %}
+                    <option value="{{ j.name }}" {% if blog.id_category.name == j.name %}selected{% endif %}>{{ j.name }}</option>
                   {% endfor %}
                 </select>
               </div>
@@ -60,22 +60,26 @@
                   <i class="bi bi-file-earmark-font-fill"></i> 
                   Blog Image 
                 </label>
-                <input type="file" class="form-control p-3" id="file" name="assignupload" required>
-              </div>
-
+                <input type="file" class="form-control p-3" id="file" name="assignupload">
+                
+                {% if blog.thumbnail %}
+                  <img src="{{ blog.thumbnail.url }}" alt="Current Thumbnail" class="mt-3" style="max-height: 100px;">
+                {% endif %}
+              </div>              
+              
               <div class="col-12 mt-3">
                 <div class="form-floating">
-                  <textarea class="form-control" name="assign_desc" placeholder="Short Description" id="floatingTextarea2" style="height: 100px"></textarea>
+                  <textarea class="form-control" name="assign_desc" placeholder="Short Description" id="floatingTextarea2" style="height: 100px">{{ blog.description }}</textarea>
                   <label for="floatingTextarea2 ">
                     Content  
                     <i class="bi bi-chat-square-dots"></i>
                   </label>
                 </div>
               </div>
-
+              
               <div class="col-12 mt-3">
                 <div class="form-floating">
-                  <textarea class="form-control" name="assign_des" placeholder="Summary" id="floatingTextarea3" style="height: 100px"></textarea>
+                  <textarea class="form-control" name="assign_des" placeholder="Summary" id="floatingTextarea3" style="height: 100px">{{ blog.summary }}</textarea>
                   <label for="floatingTextarea2 ">  
                     Summary  
                     <i class="bi bi-chat-square-dots"></i>
