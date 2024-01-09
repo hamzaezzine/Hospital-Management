@@ -1,0 +1,91 @@
+{% extends 'doctors/base.html' %}
+{% load static %}
+
+{% block title %} View Appointments {% endblock title %}
+{% block page_title %} View Appointments {% endblock page_title %}
+
+{% block content %}
+<main>
+  <section class="recent">
+    <div class="table-div">
+      <div class="col-md-7 col-lg-8 col-xl-9" style="width:80%;">
+        <div class="appointments">
+          <!-- Appointment List -->
+          {% for appointment in appointments %}
+            <div class="appointment-list" style="width:80%;">
+              <div class="profile-info-widget">
+                <a href="patient-profile.html" class="booking-doc-img">
+                  <img src="{% static 'img/def.jpeg' %}" alt="User Image">
+                </a>
+                <div class="profile-det-info">
+                  <h3 style="font-size:19px;"><a href="#" style="text-decoration:none;">Patient name &nbsp;:&nbsp;{{ appointment.patient }}</a></h3>
+                  <div class="patient-details">
+                    <h4 style="font-size:16px;"><i class="bi bi-clock-fill"></i>&nbsp;&nbsp;  {{ appointment.start_date }}&nbsp;</h4>
+                    <h4 style="font-size:16px;"><i class="bi bi-hourglass-bottom"></i>&nbsp;&nbsp; {{ appointment.start_time }}&nbsp;</h4>
+                    <h4 style="font-size:16px;"><i class="bi bi-window-fullscreen"></i>&nbsp;&nbsp; {{ appointment.status }}</h4>
+                  </div>
+                </div>
+              </div>
+              <div class="appointment-action">
+                <a href="#" class="btn btn-sm bg-info-light" data-bs-toggle="modal" data-bs-target="#viewModal{{ appointment.patient_id }}">
+                  <i class="bi bi-eye-fill"></i> View
+                </a>
+              </div>
+              <!-- Appointment Details Modal -->
+              <div class="modal fade custom-modal" id="viewModal{{ appointment.patient_id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title">Appointment Details</h5>
+                      <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <ul class="info-details">
+                        <li>
+                          <div class="details-header">
+                            <div class="row">
+                              <div class="col-md-6">
+                                <span class="title">Start Date</span>
+                                <span class="text">&nbsp;&nbsp;  {{ appointment.start_date }}&nbsp;,&nbsp;{{ appointment.start_time }}</span>
+                              </div>
+                              <div class="col-md-6">
+                                <div class="text-right">
+                                  <button type="button" class="btn bg-success-light btn-sm" id="topup_status">Completed</button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+                        <li>
+                          <span class="title">Status:</span>
+                          <span class="text">Completed</span>
+                        </li>
+                        <li>
+                          <span class="title">Confirm Date:</span>
+                          <span class="text">{{ appointment.start_date }}</span>
+                        </li>
+                        <li>
+                          <span class="title">Summary : </span>
+                          <span class="text">{{ appointment.summary }}</span>
+                        </li>
+                        <li>
+                          <span class="title">Description : </span>
+                          <span class="text">{{ appointment.description }}</span>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- /Appointment Details Modal -->
+            </div>
+          {% endfor %}
+
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+{% endblock %}

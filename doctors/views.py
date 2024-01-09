@@ -293,12 +293,35 @@ def doctor_drafts(request):
     return render(request, 'doctors/doctor_drafts.html', context)
 
 
-@login_required(login_url='/login')
-def modify(request):
-  return render(request,'doctors/doctor_profile.html')
-  
 
 @login_required(login_url='/login')
 def view_appointments(request):
-  return render(request,'doctors/doctor_profile.html')
+    context_dict = {
+      'appointments': [
+        {
+        'doctor': 'username',
+        'patient': 'John Doe',
+        'patient_id': 1,
+        'status': "Check up",
+        'summary': "bla bka bka bka",
+        'description': ' description description description description',
+        'start_date': '2024-01-03',
+        'start_time': '10:00 AM',
+        },
+        {
+        'doctor': 'username',
+        'patient': 'John Bla',
+        'patient_id': 2,
+        'status': "Follow up",
+        'summary': "bla bka bka bka",
+        'description': ' description description description description',
+        'start_date': '2024-01-04',
+        'start_time': '12:00 AM',
+        },
+      ]
+    }
+    
+    return render(request,"doctors/viewappointments.html",context_dict)
+
+
   
