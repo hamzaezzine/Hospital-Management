@@ -1,9 +1,9 @@
 from django.urls import path
-from .views import  doctor_dashboard, doctor_profile, doctor_blogs, search_blogs, blogs_category, view_blog, post_comment, doctor_drafts, upload_blog, doctor_myblogs, view_appointments
+from .views import  doctor_dashboard, profile, doctor_blogs, search_blogs, blogs_category, view_blog, post_comment, doctor_drafts, upload_blog, doctor_myblogs, view_appointments
 
 urlpatterns = [
   path('doctor_dashboard/', doctor_dashboard, name='doctor_dashboard'),
-  path('doctor_profile/', doctor_profile, name='doctor_profile'),
+  path('profile/', profile, name='doctor_profile'),
   path('doctor_blogs/', doctor_blogs, name='doctor_blogs'),
   path('search/',search_blogs,name='search_blogs'),
   path('category/<str:cat>/',blogs_category,name='categories'),

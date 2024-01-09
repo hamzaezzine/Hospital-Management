@@ -10,12 +10,21 @@
     <form method="POST" class="needs-validation" novalidate="" autocomplete="off" enctype="multipart/form-data">
       {% csrf_token %}
 
-      {% if errorcame %}
-        <div class="alert alert-danger" role="alert">
-          {% for message in messages %}
-            {{ message }}
-          {% endfor %}
-        </div>
+      {% if messages %}
+        {% for message in messages %}
+          <p>{{ message.tags }}</p>
+          {% if 'success' in message.tags %}
+            <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+              {{ message }}
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          {% else %}
+            <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+              {{ message }}
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          {% endif %}
+        {% endfor %}
       {% endif %}
 
       <div class="mb-3">

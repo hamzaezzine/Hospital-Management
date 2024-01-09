@@ -1,0 +1,181 @@
+{% extends 'patients/base.html' %}
+{% load static %}
+
+{% block title %} Dashboard {% endblock title %}
+{% block page_title %} Patient Dashboard {% endblock page_title %}
+
+{% block content %}
+<main>
+
+  <h2 class="dash-title">Patient Dashboard</h2>
+  
+  <div class="row justify-content-between">
+
+    <div class="bg-light p-2 shadow col-12 col-lg-4 mb-3">
+      <h5 class="mt-2"><i class="ms-2 bi bi-briefcase-fill"></i> Medicine Timings</h5>
+      <table class="table mt-4">
+        <thead>
+          <tr>
+            <th scope="col">Med1</th>
+            <th scope="col">Med2</th>
+            <th scope="col">Med3</th>
+            <th scope="col">Med4</th>
+            <th scope="col">Med5</th>
+            <th scope="col">Med7</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>cit</td>
+            <td>Dolo</td>
+            <td>--</td>
+            <td>--</td>
+            <td>diz</td>
+            <td>pnk</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="bg-light p-2 shadow col-12 col-lg-4 mb-3">
+      <div>
+        <div class="d-flex justify-content-between">
+          <h5 class="mt-2 mb-2"><i class="ms-2 bi bi-alarm-fill"></i> Remainder</h5>
+          <!-- Button trigger modal -->
+          <button type="button" class="btn text-end" data-bs-toggle="modal" data-bs-target="#Remainder">
+            <i class="bi bi-calendar-plus fs-5"></i>
+          </button>
+        </div>
+      </div>
+    
+      <!-- Modal -->
+      <div class="modal fade" id="Remainder" tabindex="-1" aria-labelledby="Remainder" aria-hidden="true">
+        <!-- Modal content -->
+      </div>
+      <!-- /Modal -->
+
+      <div style="overflow-y: scroll; height: 130px;">
+        <div class="alert" role="alert">
+          <h6 class="alert-heading fw-bold">Remainder Tittle</h6>
+          <p class="">"Dear Patient, Just a friendly reminder that your appointment with Dr. Smith is scheduled for tomorrow at 10am. Please remember to bring your insurance card and any necessary paperwork. Thank you."</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-light p-2 shadow col-12 col-lg-3 mb-3">
+      <h5 class="mt-2"><i class="ms-2 bi bi-pie-chart-fill"></i> Details</h5>
+      <div class="summary-single">
+        <span class="ti-id-badge"></span>
+        <div>
+          <h5>Ward</h5>
+          <small>bed 2</small>
+        </div>
+      </div>
+      <div class="summary-single">
+        <span class="ti-face-smile"></span>
+        <div>
+          <h5>Floor</h5>
+          <small>Department</small>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+  
+  <section class="recent">
+    <div class="activity-grid">
+      <div class="activity-card row justify-content-center mb-3">
+        <div class="col-lg-8 col-md-8 col-12 ">
+          <h4 class="mt-3 text-center mt-5">Pie Chart</h4>
+          <canvas id="myChart"></canvas>
+        </div>
+
+        <div class="col-lg-4 col-md-4 col-12 col-sm-8 mb-2">
+          <h4 class="mt-3 text-center mt-5">Medicines Taken</h4>
+          <canvas id="pieChart"></canvas>
+        </div>
+      </div>
+      
+      <div class="summary">
+        <div class="bday-card shadow">
+          <div class="bday-flex justify-content-between">
+            <div class="col-3">
+              <img src="https://missionvet.ca/wp-content/uploads/2020/01/User-Profile-PNG-1.png" class="img-fluid" style="width: 50px; border-radius: 50%;">
+            </div>
+            <div class="bday-info col-8">
+              <h5>Patient</h5>
+              <small>Birthday Today</small><br>   
+              <button class="btn btn-dark btn-sm">
+                <span class="ti-gift"></span>
+                Wish him
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!--graph scripts-->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    const labels = [
+      'Med-1',
+      'Med-2',
+      'Med-3',
+      'Med-4',
+    ];
+  
+    const data = {
+      labels: labels,
+      datasets: [{
+        label: 'Dosage',
+        backgroundColor: 'rgb(15, 110, 172)',
+        borderColor: 'rgb(25, 99, 232)',
+        data: [7, 12, 7, 9],
+      }]
+    };
+  
+    const config = {
+      type: 'bar',
+      data: data,
+      options: {}
+    };
+  </script>
+  <script>
+    const myChart = new Chart(
+      document.getElementById('myChart'),
+      config
+    );
+  </script>
+
+  <script>
+    // setup
+    const dataPie = {
+      labels: ['Total Medicines', 'Pending'],
+      datasets: [{
+        label: 'Medicines and pendings',
+        data: [34, 3],
+        backgroundColor: [
+          'rgb(54, 76, 25)',
+          'rgb(255, 9, 132)'
+        ],
+        hoverOffset: 4
+      }]
+    };
+    // config
+    const configPie = {
+      type: 'pie',
+      data: dataPie,
+      options: {}
+    };
+    // render in block
+    const pieChart = new Chart(
+      document.getElementById('pieChart'),
+      configPie
+    );
+  </script>
+
+</main>
+
+{% endblock %}

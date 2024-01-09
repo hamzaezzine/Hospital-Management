@@ -7,21 +7,18 @@
   <div class="card-body p-4">
     <h1 class="fs-4 card-title fw-bold mb-3 text-center">Login</h1>
     
-    {% if registration_success %}
-      <div class="alert alert-success" role="alert">
-        Your account has been successfully registered.
-      </div>
-    {% endif %}
-
     <form method="POST" class="needs-validation" novalidate="" autocomplete="off" enctype="multipart/form-data">
       {% csrf_token %}
 
-      {% if errorlogin %}
-        <div class="alert alert-danger" role="alert">
-          Incorrect Details
-        </div>
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        {% endfor %}
       {% endif %}
-      
+        
       <div class="mb-3">
         <label class="mb-2 text-muted" for="email">User ID</label>
         <input  id="email" type="text" class="form-control" name="username" value="" required autofocus />

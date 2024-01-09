@@ -18,10 +18,13 @@ def doctor_dashboard(request):
   return render(request,'doctors/doctor_dashboard.html')
 
 @login_required(login_url='/login')
-def doctor_profile(request):
+def profile(request):
     updated_profile_successfully  = False
     updated_password_successfully = False
-
+    base_template = 'patients/base.html'
+    if request.user.is_doctor:
+      base_template = 'doctors/base.html'
+    
     if request.method == 'POST':
       if 'update_profile' in request.POST:
         user = request.user
@@ -33,9 +36,21 @@ def doctor_profile(request):
         user.id_address.region = request.POST.get('region')
         user.id_address.city = request.POST.get('city')
         user.id_address.code_postal = request.POST.get('code_postal')
+        
+        if(user.is_doctor):
+          doctor_profile = user.doctors
+          doctor_profile.specialty = request.POST.get('specialty')
+          doctor_profile.bio = request.POST.get('bio')
+          doctor_profile.save()
+        else:
+          patient_profile = user.patients
+          patient_profile.insurance = request.POST.get('insurance')
+          patient_profile.save()
+
+
 
         if 'profile_pic' in request.FILES:
-            user.profile_avatar = request.FILES['profile_pic']
+          user.profile_avatar = request.FILES['profile_pic']
 
         user.save()
         updated_profile_successfully  = True
@@ -59,32 +74,41 @@ def doctor_profile(request):
 
     curruser = request.user.username
     data = User.objects.get(username=curruser)
-    return render(request, 'doctors/doctor_profile.html', context={
+    return render(request, 'doctors/profile.html', context={
             "basicdata": data,
             "updated_profile_successfully": updated_profile_successfully,
-            "updated_password_successfully": updated_password_successfully
+            "updated_password_successfully": updated_password_successfully,
+            'base_template': base_template,
         })
     
 
 @login_required(login_url='/login')
-def doctor_blogs(request):
-    blogs = Blogs.objects.filter(is_published=True).order_by('-posted_at')
-    categories = Category.objects.all()
+def doctor_blogs(request): 
+  base_template = 'patients/base.html'
+  if request.user.is_doctor:
+    base_template = 'doctors/base.html'   
+    
+  blogs = Blogs.objects.filter(is_published=True).order_by('-posted_at')
+  categories = Category.objects.all()
 
-    paginator = Paginator(blogs, 5)
-    page = request.GET.get('page')
-    blogs_page = paginator.get_page(page)
+  paginator = Paginator(blogs, 5)
+  page = request.GET.get('page')
+  blogs_page = paginator.get_page(page)
 
-    context = {
-        'blogs': blogs_page,
-        'categories': categories,
-    }
+  context = {
+      'blogs': blogs_page,
+      'categories': categories,
+      'base_template': base_template,
+  }
 
-    return render(request, 'doctors/doctor_blogs.html', context)
-
+  return render(request, 'doctors/doctor_blogs.html', context)
 
 @login_required(login_url='/login')
 def search_blogs(request):
+  base_template = 'patients/base.html'
+  if request.user.is_doctor:
+    base_template = 'doctors/base.html'
+    
   if request.method == 'GET':
     keyword = request.GET.get('keyword')
     
@@ -100,12 +124,17 @@ def search_blogs(request):
         'categories': categories,
         'searching': 1,
         'keyword': keyword,
+        'base_template': base_template,
     }
 
     return render(request, 'doctors/doctor_blogs.html', context)
 
 
 def blogs_category(request, cat):
+  base_template = 'patients/base.html'
+  if request.user.is_doctor:
+    base_template = 'doctors/base.html'
+    
   category = Category.objects.get(name=cat)
 
   blogs = Blogs.objects.filter(id_category=category, is_published=True).order_by('-posted_at')
@@ -118,54 +147,10 @@ def blogs_category(request, cat):
   context = {
       'blogs': blogs_page,
       'categories': categories,
+      'base_template': base_template,
   }
 
   return render(request, 'doctors/doctor_blogs.html', context)
-
-
-# @login_required(login_url='/login')
-# def upload_blog(request):
-#   if request.method == 'POST':
-#     title = request.POST.get('assign_title') 
-#     category_name = request.POST.get('assign_class')
-#     category = Category.objects.get(name=category_name)
-#     image = request.FILES.get('assignupload')
-#     description = request.POST.get('assign_desc')
-#     summary = request.POST.get('assign_des')
-
-#     is_published = request.POST.get('upload_blog') == 'Submit'
-    
-#     user = request.user 
-#     author = get_object_or_404(Doctors, user=user)
-
-
-#     blog = Blogs(
-#       title=title,
-#       doctor=author,  
-#       id_category=category,
-#       thumbnail=image,
-#       description=description,
-#       summary=summary,
-#       is_published=is_published,
-#       posted_at=datetime.now(), 
-#     )
-
-#     blog.save()
-
-#     if is_published:
-#       messages.success(request, 'Blog successfully published!')
-#     else:
-#       messages.success(request, 'Blog saved as draft.')
-
-
-#   total_categories = Category.objects.all()
-
-#   context = {
-#       'user_name': request.user.username,
-#       'total_categories': total_categories,
-#   }
-
-#   return render(request, 'doctors/upload_blog.html', context)
 
 
 @login_required(login_url='/login')
@@ -220,6 +205,10 @@ def upload_blog(request, blog_id=None):
 
 @login_required(login_url='/login')
 def view_blog(request, blog_id):
+    base_template = 'patients/base.html'
+    if request.user.is_doctor:
+      base_template = 'doctors/base.html'
+    
     blog = get_object_or_404(Blogs, blog_id=blog_id)
 
     related_blogs = Blogs.objects.filter(id_category=blog.id_category, is_published=True).exclude(blog_id=blog_id).order_by('-posted_at')[:3]
@@ -233,6 +222,7 @@ def view_blog(request, blog_id):
         'blog': blog,
         'categories': categories,
         'comments': comments,
+        'base_template': base_template,
     }
 
     return render(request, 'doctors/view_blog.html', context)
@@ -254,22 +244,24 @@ def post_comment(request):
 
 @login_required(login_url='/login')
 def doctor_myblogs(request):
-    user = request.user
-    author = get_object_or_404(Doctors, user=user)
-    
-    blogs = Blogs.objects.filter(doctor=author).order_by('-posted_at')
-    categories = Category.objects.all()
 
-    paginator = Paginator(blogs, 5)
-    page = request.GET.get('page')
-    blogs_page = paginator.get_page(page)
+  user = request.user
+  author = get_object_or_404(Doctors, user=user)
+  
+  blogs = Blogs.objects.filter(doctor=author).order_by('-posted_at')
+  categories = Category.objects.all()
 
-    context = {
-        'blogs': blogs_page,
-        'categories': categories,
-    }
+  paginator = Paginator(blogs, 5)
+  page = request.GET.get('page')
+  blogs_page = paginator.get_page(page)
 
-    return render(request, 'doctors/doctor_blogs.html', context)
+  context = {
+      'blogs': blogs_page,
+      'categories': categories,
+      'base_template': 'doctors/base.html'
+  }
+
+  return render(request, 'doctors/doctor_blogs.html', context)
 
 
 
@@ -323,5 +315,3 @@ def view_appointments(request):
     
     return render(request,"doctors/viewappointments.html",context_dict)
 
-
-  

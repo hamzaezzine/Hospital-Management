@@ -1,0 +1,96 @@
+{% load static %}
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+  <title>{% block title %}{% endblock title %} - Hospital Management</title>
+  <link rel="icon" type="image/x-icon" href="{% static 'img/icon_app.png' %}">
+
+  <link  href="{% static 'css/style-appointments.css' %}" rel="stylesheet">
+  <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet"/>
+  <link href="{% static 'css/base-style.css' %}" rel="stylesheet"/>
+  {% comment %} <link href="{% static 'css/themify-icons.css' %}" rel="stylesheet"/> {% endcomment %}
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lykmapipo/themify-icons@0.1.2/css/themify-icons.css">
+  <link  href="{% static 'css/style.css' %}" rel="stylesheet">
+  <link  href="{% static 'css/bootstrap-icons.css' %}" rel="stylesheet">
+  <link  href="{% static 'css/jquery.dataTables.min.css' %}" rel="stylesheet">
+  <link  href="{% static 'css/styleblog.css' %}" rel="stylesheet">
+  <link  href="{% static 'css/styleblog-responsive.css' %}" rel="stylesheet">
+</head>
+
+<body>
+  <input type="checkbox" id="sidebar-toggle">
+  <div class="sidebar">
+    <div class="sidebar-header pt-4">
+      <div class="text-center my-">
+        <img src="{% static 'img/white-logo.png' %}" alt="logo" class="img-fluid" style="max-width: 170px;" />
+      </div>
+      <label for="sidebar-toggle" class="ti-menu-alt"></label>
+    </div>
+      
+    <div class="sidebar-menu">
+      <ul>
+        <li>
+          <a href="{% url 'patient_dashboard' %}">
+            <i class="bi bi-speedometer2 me-2"></i>
+            <span>Dashboard</span>
+          </a>
+        </li>
+        <li>
+          <a href="{% url 'patient_profile' %}">
+            <i class="bi bi-person-circle me-2"></i> 
+            <span>Profile</span>
+          </a>
+        </li>
+        <li>
+          <a href="{% url 'patient_blogs' %}">
+            <i>&#9777;&nbsp;&nbsp; </i> 
+            <span>Blogs</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="{% url 'patient_book_appointment' %}">
+            <i class="bi bi-file-medical-fill"></i>
+            <span>&nbsp;&nbsp;Book appoinments</span>
+          </a>
+        </li>
+        <li>
+          <a href="{% url 'patient_my_appointments' %}">
+            <i class="bi bi-journals"></i> 
+            <span>&nbsp;&nbsp;My appoinments</span>
+          </a>
+        </li>
+      
+        
+        <br><br>
+
+        <li>
+            <a href="{% url 'logout' %}" class="logout text-dark"data-bs-toggle="tooltip" data-bs-placement="right" title="logout" >
+              <i class="bi bi-box-arrow-left me-3"></i> 
+              <span class="d-none d-md-inline">Log Out</span>
+            </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="main-content">
+    <header class="d-flex  align-items-center">
+      <h2>{% block page_title %}{% endblock page_title %}</h2>
+      <a href="{% url 'patient_profile' %}">
+        <img src="{{ request.user.profile_avatar.url }}" style="width: 30px; height: 30px; border-radius: 50%; overflow: hidden; background-color: blue; display: inline-block; vertical-align: middle; border: 3px solid #424a5b;">
+        <span class="fw-bold fs-6 ms-1 text-dark me-4">{{ request.user.username|safe | truncatechars:"10" }}</span>
+      </a>
+    </header>
+    {% block content %}
+    {% endblock content %}
+
+  <script src="{% static 'js/jquery.min.js' %}"></script>
+  <script src="{% static 'js/poper.min.js' %}"></script>
+  <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+  </body>
+</html>
