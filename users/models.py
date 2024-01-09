@@ -26,6 +26,7 @@ class Users(AbstractUser):
     gender_choices = (("Male", "Male"), ("Female", "Female"))
     gender = models.CharField(max_length=10, choices=gender_choices, default="not_known")
     birthday = models.DateField(null=True, blank=True)
+    is_doctor = models.BooleanField(default=False)
     profile_avatar = models.ImageField(upload_to="users/profiles", blank=True, default="doctor/profiles/download.png")
     id_address = models.ForeignKey(Address, on_delete=models.CASCADE, null=True)
     

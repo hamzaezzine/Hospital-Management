@@ -32,47 +32,37 @@
     <div class="sidebar-menu">
       <ul>
         <li>
-          <a href="{% url 'doctor_dashboard' %}">
+          <a href="{% url 'patient_dashboard' %}">
             <i class="bi bi-speedometer2 me-2"></i>
             <span>Dashboard</span>
           </a>
         </li>
         <li>
-          <a href="{% url 'doctor_profile' %}">
+          <a href="{% url 'patient_profile' %}">
             <i class="bi bi-person-circle me-2"></i> 
             <span>Profile</span>
           </a>
         </li>
         <li>
-          <a href="{% url 'doctor_blogs' %}">
+          <a href="{% url 'patient_blogs' %}">
             <i>&#9777;&nbsp;&nbsp; </i> 
             <span>Blogs</span>
           </a>
         </li>
+
         <li>
-          <a href="{% url 'myblogs' %}">
-            <i>&#9729;&nbsp;&nbsp;</i>
-            <span>My Blogs</span>
+          <a href="{% url 'patient_book_appointment' %}">
+            <i class="bi bi-file-medical-fill"></i>
+            <span>&nbsp;&nbsp;Book appoinments</span>
           </a>
         </li>
         <li>
-          <a href="{% url 'upload_blog' %}">
-            <i class="bi bi-cloud-arrow-up-fill"></i>
-            <span>&nbsp;&nbsp;Upload Blog</span>
+          <a href="{% url 'patient_my_appointments' %}">
+            <i class="bi bi-journals"></i> 
+            <span>&nbsp;&nbsp;My appoinments</span>
           </a>
         </li>
-        <li>
-          <a href="{% url 'doctor_drafts' %}">
-            <i class="bi bi-envelope-open"></i>
-            <span>&nbsp;&nbsp;My Drafts</span>
-          </a>
-        </li>
-        <li>
-          <a href="{% url 'view_appointments' %}">
-            <i class="bi bi-file-medical-fill"></i> 
-            <span>&nbsp;&nbsp;view appointments</span>
-          </a>
-        </li>
+      
         
         <br><br>
 
@@ -89,7 +79,7 @@
   <div class="main-content">
     <header class="d-flex  align-items-center">
       <h2>{% block page_title %}{% endblock page_title %}</h2>
-      <a href="{% url 'doctor_profile' %}">
+      <a href="{% url 'patient_profile' %}">
         <img src="{{ request.user.profile_avatar.url }}" style="width: 30px; height: 30px; border-radius: 50%; overflow: hidden; background-color: blue; display: inline-block; vertical-align: middle; border: 3px solid #424a5b;">
         <span class="fw-bold fs-6 ms-1 text-dark me-4">{{ request.user.username|safe | truncatechars:"10" }}</span>
       </a>

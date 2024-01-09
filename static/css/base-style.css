@@ -5,11 +5,11 @@
 
 
 .primary-color{
-  color: var(--primary-color);
+  color: var(--primary-color) !important;
 }
 
 .primary-color-background{
-  background-color: var(--primary-color);
+  background-color: var(--primary-color) !important;
 }
 
 .secondary-color{
@@ -17,7 +17,7 @@
 }
 
 .secondary-color-background{
-  background-color: var(--secondary-color);
+  background-color: var(--secondary-color) !important;
 }
 
 .main-content a{
