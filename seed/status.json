@@ -1,0 +1,23 @@
+[
+    {
+        "model": "patients.Status",
+        "pk": 1,
+        "fields": {
+            "status": "Accepted"
+        }
+    },
+    {
+        "model": "patients.Status",
+        "pk": 2,
+        "fields": {
+            "status": "Waited"
+        }
+    },
+    {
+        "model": "patients.Status",
+        "pk": 3,
+        "fields": {
+            "status": "Cancelled"
+        }
+    }
+]

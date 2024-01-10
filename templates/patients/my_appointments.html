@@ -1,10 +1,10 @@
-{% extends 'patients/patient_main.html' %}
+{% extends 'patients/base.html' %}
 {% load static %}
 
+{% block title %} Profile {% endblock title %}
+{% block page_title %} Patient Profile {% endblock page_title %}
+
 {% block content %}
-<link rel="stylesheet" href="{% static 'css/style_last.css' %}">
-<link rel="stylesheet" href="{% static 'css/fontawesome.min.css' %}">
-<link rel="stylesheet" href="{% static 'css/all.min.css' %}">
 <main>
     <section class="recent">
         <div class="table-div">
@@ -20,8 +20,8 @@
                                             <th>Doctor</th>
                                             <th>Appt Date</th>
                                             <th>Start Time</th>
-                                            <th>End Time</th>
-                                            <th>Required Speciality</th>
+                                            <th>Suammry</th>
+                                            <th>Description</th>
                                             <th>status</th>
                                             <th></th>
                                         </tr>
@@ -32,16 +32,16 @@
                                             <td>
                                                 <h2 class="table-avatar">
                                                     <a href="doctor-profile.html" class="avatar avatar-sm mr-2">
-                                                        <img class="avatar-img rounded-circle" src="{% static 'img/download.png' %}" alt="User Image">
+                                                        <img class="avatar-img rounded-circle" src="{{appointment.doctor.user.profile_avatar.url}}" alt="User Image">
                                                     </a>
-                                                    <b><a href="#" style="text-decoration:none;font:100px;">&nbsp;&nbsp;Dr. {{ appointment.doctor }} <span>&nbsp;&nbsp;<!--Dental--></span></a></b>
+                                                    <b><a href="#" style="text-decoration:none;font:100px;">&nbsp;&nbsp;Dr. {{ appointment.doctor.user.first_name }} <span>&nbsp;&nbsp;<!--Dental--></span></a></b>
                                                 </h2>
                                             </td>
                                             <td>{{ appointment.start_date }} <span class="d-block text-info" style="font-size:16px;"></span></td>
-                                            <td><span class="d-block text-info" style="font-size:16px;">{{ appointment.start_time }}</span></td>
-                                            <td><span class="d-block text-info" style="font-size:16px;color:red;">{{ appointment.end_time }}</span></td>
-                                            <td>{{ appointment.appointment }}</td>
-                                            <td><span class="badge badge-pill bg-success-light" style="height:22px;font-size:14px;">Confirm</span></td>
+                                            <td><span class="d-block text-info" style="font-size:16px;">{{ appointment.time.time }}</span></td>
+                                            <td><span class="d-block text-info" style="font-size:16px;color:red;">{{ appointment.summary }}</span></td>
+                                            <td>{{ appointment.description }}</td>
+                                            <td><span class="badge badge-pill bg-success-light" style="height:22px;font-size:14px;">{{appointment.status.status}}</span></td>
                                             <td class="text-right">
                                                 <!--<div class="table-action">
                                                     <a href="javascript:void(0);" class="btn btn-sm bg-primary-light">
@@ -65,19 +65,4 @@
         </div>
     </section>
 </main>
-{% if eventconfirm is 1 %}
-                    <script language="JavaScript">alert('You booked Appointment Successfully :(')</script>
-{% endif %}
-<script
-src="https://code.jquery.com/jquery-3.6.4.min.js"
-integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8="
-crossorigin="anonymous">
-</script>
-
-
-<script src="{% static 'js/jquery.min.js' %}"></script>
-
-<!-- Bootstrap Core JS -->
-<script src="{% static 'js/popper.min.js' %}"></script>
-<script src="{% static 'js/script.js' %}"></script>
 {% endblock %}

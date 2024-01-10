@@ -9,8 +9,9 @@ from django.db.models import Q
 from django.urls import reverse
 from users.models import Specialty
 
-from .models import Blogs, Comments, Category
+from .models import Blogs, Comments, Category 
 from users.models import Doctors
+from patients.models import Appointment, Status
 
 User = get_user_model()
 
@@ -297,30 +298,14 @@ def doctor_drafts(request):
 
 @login_required(login_url='/login')
 def view_appointments(request):
-    context_dict = {
-      'appointments': [
-        {
-        'doctor': 'username',
-        'patient': 'John Doe',
-        'patient_id': 1,
-        'status': "Check up",
-        'summary': "bla bka bka bka",
-        'description': ' description description description description',
-        'start_date': '2024-01-03',
-        'start_time': '10:00 AM',
-        },
-        {
-        'doctor': 'username',
-        'patient': 'John Bla',
-        'patient_id': 2,
-        'status': "Follow up",
-        'summary': "bla bka bka bka",
-        'description': ' description description description description',
-        'start_date': '2024-01-04',
-        'start_time': '12:00 AM',
-        },
-      ]
-    }
-    
-    return render(request,"doctors/viewappointments.html",context_dict)
+    if request.method == 'POST':
+      status = request.POST.get("status")
+      app_id = request.POST.get("id")
+      app = Appointment.objects.get(id=app_id)
+      status_id = Status.objects.get(status=status)
+      app.status = status_id
+
+      app.save()
+    app = Appointment.objects.filter(doctor__user = request.user)
+    return render(request,"doctors/viewappointments.html",{'appointments':app})
 

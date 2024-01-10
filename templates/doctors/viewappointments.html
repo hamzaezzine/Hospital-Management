@@ -15,24 +15,24 @@
             <div class="appointment-list" style="width:80%;">
               <div class="profile-info-widget">
                 <a href="patient-profile.html" class="booking-doc-img">
-                  <img src="{% static 'img/def.jpeg' %}" alt="User Image">
+                  <img src="{{appointment.patient.user.profile_avatar.url}}" alt="User Image">
                 </a>
                 <div class="profile-det-info">
-                  <h3 style="font-size:19px;"><a href="#" style="text-decoration:none;">Patient name &nbsp;:&nbsp;{{ appointment.patient }}</a></h3>
+                  <h3 style="font-size:19px;"><a href="#" style="text-decoration:none;">Patient name &nbsp;:&nbsp;{{ appointment.patient.user.first_name }}</a></h3>
                   <div class="patient-details">
                     <h4 style="font-size:16px;"><i class="bi bi-clock-fill"></i>&nbsp;&nbsp;  {{ appointment.start_date }}&nbsp;</h4>
-                    <h4 style="font-size:16px;"><i class="bi bi-hourglass-bottom"></i>&nbsp;&nbsp; {{ appointment.start_time }}&nbsp;</h4>
-                    <h4 style="font-size:16px;"><i class="bi bi-window-fullscreen"></i>&nbsp;&nbsp; {{ appointment.status }}</h4>
+                    <h4 style="font-size:16px;"><i class="bi bi-hourglass-bottom"></i>&nbsp;&nbsp; {{ appointment.time.time }}&nbsp;</h4>
+                    <h4 style="font-size:16px;"><i class="bi bi-window-fullscreen"></i>&nbsp;&nbsp; {{ appointment.status.status }}</h4>
                   </div>
                 </div>
               </div>
               <div class="appointment-action">
-                <a href="#" class="btn btn-sm bg-info-light" data-bs-toggle="modal" data-bs-target="#viewModal{{ appointment.patient_id }}">
+                <a href="#" class="btn btn-sm bg-info-light" data-bs-toggle="modal" data-bs-target="#viewModal{{ appointment.patient.user.username }}">
                   <i class="bi bi-eye-fill"></i> View
                 </a>
               </div>
               <!-- Appointment Details Modal -->
-              <div class="modal fade custom-modal" id="viewModal{{ appointment.patient_id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+              <div class="modal fade custom-modal" id="viewModal{{ appointment.patient.user.username  }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                   <div class="modal-content">
                     <div class="modal-header">
@@ -48,19 +48,27 @@
                             <div class="row">
                               <div class="col-md-6">
                                 <span class="title">Start Date</span>
-                                <span class="text">&nbsp;&nbsp;  {{ appointment.start_date }}&nbsp;,&nbsp;{{ appointment.start_time }}</span>
+                                <span class="text">&nbsp;&nbsp;  {{ appointment.start_date }}&nbsp;,&nbsp;{{ appointment.time.time }}</span>
                               </div>
+                              
                               <div class="col-md-6">
-                                <div class="text-right">
-                                  <button type="button" class="btn bg-success-light btn-sm" id="topup_status">Completed</button>
-                                </div>
+                                <form method="post">
+                                  {% csrf_token %}
+                                  <div class="text-right">
+                                    <select name="status" id="" class="form-select">
+                                      <option value="Accepted" {% if appointment.status.status == "Accepted" %}selected{% endif %} >Accepted</option>
+                                      <option value="Waited" {% if appointment.status.status == "Waited" %}selected{% endif %}>Waited</option>
+                                      <option value="Cancelled" {% if appointment.status.status == "Cancelled" %}selected{% endif %}>Cancelled</option>
+                                    </select>
+                                    <div class="mt-4">
+                                      <input type="hidden" value='{{ appointment.id }}' name="id">
+                                      <button type="submit" class="btn btn-primary primary-color-background w-100">Save</button>
+                                    </div>
+                                  </div>
+                                </form>
                               </div>
                             </div>
                           </div>
-                        </li>
-                        <li>
-                          <span class="title">Status:</span>
-                          <span class="text">Completed</span>
                         </li>
                         <li>
                           <span class="title">Confirm Date:</span>
