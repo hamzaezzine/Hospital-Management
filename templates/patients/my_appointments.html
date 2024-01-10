@@ -1,9 +1,83 @@
-{% extends 'patients/base.html' %}
+{% extends 'patients/patient_main.html' %}
 {% load static %}
 
-{% block title %} Patient Appointment {% endblock title %}
-{% block page_title %} My Appointment {% endblock page_title %}
-
 {% block content %}
+<link rel="stylesheet" href="{% static 'css/style_last.css' %}">
+<link rel="stylesheet" href="{% static 'css/fontawesome.min.css' %}">
+<link rel="stylesheet" href="{% static 'css/all.min.css' %}">
+<main>
+    <section class="recent">
+        <div class="table-div">
+            <div class="table-card">
+                <div class="tab-content pt-0">
+                <div id="pat_appointments" class="tab-pane fade show active">
+                    <div class="card card-table mb-0">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover table-center mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th>Doctor</th>
+                                            <th>Appt Date</th>
+                                            <th>Start Time</th>
+                                            <th>End Time</th>
+                                            <th>Required Speciality</th>
+                                            <th>status</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for appointment in appointments %}
+                                        <tr>
+                                            <td>
+                                                <h2 class="table-avatar">
+                                                    <a href="doctor-profile.html" class="avatar avatar-sm mr-2">
+                                                        <img class="avatar-img rounded-circle" src="{% static 'img/download.png' %}" alt="User Image">
+                                                    </a>
+                                                    <b><a href="#" style="text-decoration:none;font:100px;">&nbsp;&nbsp;Dr. {{ appointment.doctor }} <span>&nbsp;&nbsp;<!--Dental--></span></a></b>
+                                                </h2>
+                                            </td>
+                                            <td>{{ appointment.start_date }} <span class="d-block text-info" style="font-size:16px;"></span></td>
+                                            <td><span class="d-block text-info" style="font-size:16px;">{{ appointment.start_time }}</span></td>
+                                            <td><span class="d-block text-info" style="font-size:16px;color:red;">{{ appointment.end_time }}</span></td>
+                                            <td>{{ appointment.appointment }}</td>
+                                            <td><span class="badge badge-pill bg-success-light" style="height:22px;font-size:14px;">Confirm</span></td>
+                                            <td class="text-right">
+                                                <!--<div class="table-action">
+                                                    <a href="javascript:void(0);" class="btn btn-sm bg-primary-light">
+                                                        <i class="bi bi-printer-fill"></i> Print
+                                                    </a>
+                                                    <a href="javascript:void(0);" class="btn btn-sm bg-info-light">
+                                                        <i class="bi bi-eye-fill"></i> View
+                                                    </a>-->
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </section>
+</main>
+{% if eventconfirm is 1 %}
+                    <script language="JavaScript">alert('You booked Appointment Successfully :(')</script>
+{% endif %}
+<script
+src="https://code.jquery.com/jquery-3.6.4.min.js"
+integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8="
+crossorigin="anonymous">
+</script>
 
+
+<script src="{% static 'js/jquery.min.js' %}"></script>
+
+<!-- Bootstrap Core JS -->
+<script src="{% static 'js/popper.min.js' %}"></script>
+<script src="{% static 'js/script.js' %}"></script>
 {% endblock %}

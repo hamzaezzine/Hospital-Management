@@ -1,0 +1,166 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,maximum-scale=1"
+    />
+    <title>{% block title %} Home Page {% endblock title %}</title>
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="{% static 'img/webpage.png' %}"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/lykmapipo/themify-icons@0.1.2/css/themify-icons.css"
+    />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <!--Submisiions -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css"
+    />
+  </head>
+  <body>
+    <input type="checkbox" id="sidebar-toggle" />
+    <div class="sidebar">
+      <div class="sidebar-header">
+        <h3 class="brand">
+          <span class="ti-unlink" style="color: white"></span>
+          <span style="color: white">HMS</span>
+        </h3>
+        <label for="sidebar-toggle" class="ti-menu-alt"></label>
+      </div>
+
+      <div class="sidebar-menu">
+        <ul>
+          <li>
+            <a href="{% url 'patient_dashboard' %}">
+              <i class="bi bi-speedometer2 me-2"></i>
+              <span>Dashboard</span>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'patient_profile' %}">
+              <i class="bi bi-person-circle me-2"></i>
+              <span>Profile</span>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'patient_blogs' %}">
+              <i>&#9729;&nbsp;&nbsp;</i>
+              <span>Blogs</span>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'patient_book_appointment' %}">
+              <i class="bi bi-file-medical-fill"></i>
+              <span>&nbsp;&nbsp;Book appoinments</span>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'patient_my_appointments' %}">
+              <i class="bi bi-journals"></i>
+              <span>&nbsp;&nbsp;My appoinments</span>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'Request_an_appointment' %}">
+              <i class="bi bi-journals"></i>
+              <span>&nbsp;&nbsp;Request an appointment</span>
+            </a>
+          </li>
+
+          <br /><br /><br /><br />
+          <li>
+            <a
+              href="{% url 'logout' %}"
+              data-bs-toggle="tooltip"
+              data-bs-placement="right"
+              title="logout"
+            >
+              <i class="bi bi-box-arrow-left me-3"></i>
+              <span class="d-none d-md-inline">Log Out </span></a
+            >
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="main-content">
+      <header>
+        <div class="search-wrapper">
+          <span class=""><i class="bi bi-search fw-bold"></i></span>
+          <input type="search" placeholder="Search" />
+        </div>
+        <div class="#">
+          <img
+            src="{{ request.user.profile_pic.url }}"
+            style="
+              width: 30px;
+              height: 30px;
+              border-radius: 50%;
+              overflow: hidden;
+              background-color: blue;
+              display: inline-block;
+              vertical-align: middle;
+              border: 3px solid #424a5b;
+            "
+          />
+
+          <span class="fw-bold fs-6 ms-1 text-dark me-4"
+            >{{ request.user.username|safe | truncatechars:"10" }}</span
+          >
+          <span
+            data-bs-toggle="offcanvas"
+            data-bs-target="#notice"
+            aria-controls="notice"
+            ><i class="bi bi-bell-fill me-2 text-secondary fs-5"></i
+          ></span>
+          <i class="bi bi-chat-square-dots-fill fs-5 me-3 text-secondary"></i>
+        </div>
+      </header>
+      {% block content %} {% endblock content %}
+    </div>
+
+    <!--Notice-->
+    <div
+      class="offcanvas offcanvas-end"
+      tabindex="-1"
+      id="notice"
+      aria-labelledby="noticeLabel"
+    >
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="noticeLabel">Offcanvas right</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="offcanvas"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="offcanvas-body">...</div>
+    </div>
+    <!--end Notice-->
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

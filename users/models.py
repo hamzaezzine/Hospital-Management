@@ -42,9 +42,15 @@ class Reste_token(models.Model):
    email = models.CharField(max_length = 50,unique=True)
    token = models.CharField(max_length = 50)
 
+class Specialty(models.Model):
+    name = models.CharField(max_length=25 , unique=True)
+    description = models.TextField()
+    def __str__(self):
+      return self.name
+    
 class Doctors(models.Model):
   user = models.OneToOneField(Users, on_delete=models.CASCADE, primary_key=True)
-  specialty = models.CharField(max_length=50)
+  specialty = models.ForeignKey(Specialty,on_delete=models.CASCADE, default=1)
   bio = models.TextField()
   
   class Meta:
@@ -65,3 +71,4 @@ class Patients(models.Model):
   
   def __str__(self):
       return self.user.get_full_name() or self.user.username
+

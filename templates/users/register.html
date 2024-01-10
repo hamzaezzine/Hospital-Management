@@ -37,7 +37,11 @@
 
       <div id="specialty_block" class="mb-3" style="display: {% if user_config == 'Doctor' %}block{% else %}none{% endif %}">
         <label class="mb-2 text-muted" for="specialty">Specialty</label>
-        <input id="specialty" type="text" class="form-control" name="specialty" {% if user_config == 'Doctor' %}required{% endif %} />
+        <select name="Speciality" class="form-select" id="">
+          {% for speciality in specialities %}
+          <option value="{{speciality.name}}">{{speciality.name}}</option>
+          {%endfor%}
+        </select>
         <div class="invalid-feedback">Specialty is required for doctors</div>
       </div>
       

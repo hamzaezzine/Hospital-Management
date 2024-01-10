@@ -7,6 +7,7 @@ from django.core.paginator import Paginator
 from datetime import datetime
 from django.db.models import Q
 from django.urls import reverse
+from users.models import Specialty
 
 from .models import Blogs, Comments, Category
 from users.models import Doctors
@@ -19,6 +20,7 @@ def doctor_dashboard(request):
 
 @login_required(login_url='/login')
 def profile(request):
+    specialities = Specialty.objects.all()
     updated_profile_successfully  = False
     updated_password_successfully = False
     base_template = 'patients/base.html'
@@ -38,8 +40,14 @@ def profile(request):
         user.id_address.code_postal = request.POST.get('code_postal')
         
         if(user.is_doctor):
+          specialty = request.POST.get('Speciality')
+          specialty_name = Specialty.objects.get(name=specialty)
+          # bio = request.POST.get('bio')
+          # doctor = Doctors.objects.create(user=user, specialty=specialty_name, bio=bio)
+          # doctor.save()
+
           doctor_profile = user.doctors
-          doctor_profile.specialty = request.POST.get('specialty')
+          doctor_profile.specialty = specialty_name
           doctor_profile.bio = request.POST.get('bio')
           doctor_profile.save()
         else:
@@ -79,6 +87,7 @@ def profile(request):
             "updated_profile_successfully": updated_profile_successfully,
             "updated_password_successfully": updated_password_successfully,
             'base_template': base_template,
+            "specialities":specialities
         })
     
 
