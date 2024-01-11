@@ -27,12 +27,12 @@
                 </div>
               </div>
               <div class="appointment-action">
-                <a href="#" class="btn btn-sm bg-info-light" data-bs-toggle="modal" data-bs-target="#viewModal{{ appointment.patient.user.username }}">
+                <a href="#" class="btn btn-sm bg-info-light" data-bs-toggle="modal" data-bs-target="#viewModal{{ appointment.id }}">
                   <i class="bi bi-eye-fill"></i> View
                 </a>
               </div>
               <!-- Appointment Details Modal -->
-              <div class="modal fade custom-modal" id="viewModal{{ appointment.patient.user.username  }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+              <div class="modal fade custom-modal" id="viewModal{{ appointment.id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                   <div class="modal-content">
                     <div class="modal-header">
@@ -61,7 +61,7 @@
                                       <option value="Cancelled" {% if appointment.status.status == "Cancelled" %}selected{% endif %}>Cancelled</option>
                                     </select>
                                     <div class="mt-4">
-                                      <input type="hidden" value='{{ appointment.id }}' name="id">
+                                      <input type="hidden" value='{{ appointment.id }}' name="app">
                                       <button type="submit" class="btn btn-primary primary-color-background w-100">Save</button>
                                     </div>
                                   </div>
