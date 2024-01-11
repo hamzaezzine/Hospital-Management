@@ -32,6 +32,3 @@ class Appointment(models.Model):
         return self.summary
     
 
-        
-        
-        

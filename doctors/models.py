@@ -21,7 +21,7 @@ class Blogs(models.Model):
   summary = models.TextField()
   is_published = models.BooleanField(default=False)
   posted_at = models.DateField(default=datetime.now)
-  thumbnail = models.ImageField(upload_to="blogs/thumbnail")
+  thumbnail = models.ImageField(upload_to="blogs/thumbnail", null=True, blank=True)
   id_category = models.ForeignKey(Category, on_delete=models.PROTECT)
   doctor = models.ForeignKey(Doctors, on_delete=models.CASCADE)
 

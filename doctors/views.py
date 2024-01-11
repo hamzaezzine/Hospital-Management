@@ -7,11 +7,10 @@ from django.core.paginator import Paginator
 from datetime import datetime
 from django.db.models import Q
 from django.urls import reverse
-from users.models import Specialty
+from django.core.files.storage import default_storage
 
-from .models import Blogs, Comments, Category 
+from .models import Blogs, Comments, Category
 from users.models import Doctors
-from patients.models import Appointment, Status
 
 User = get_user_model()
 
@@ -21,7 +20,6 @@ def doctor_dashboard(request):
 
 @login_required(login_url='/login')
 def profile(request):
-    specialities = Specialty.objects.all()
     updated_profile_successfully  = False
     updated_password_successfully = False
     base_template = 'patients/base.html'
@@ -41,14 +39,8 @@ def profile(request):
         user.id_address.code_postal = request.POST.get('code_postal')
         
         if(user.is_doctor):
-          specialty = request.POST.get('Speciality')
-          specialty_name = Specialty.objects.get(name=specialty)
-          # bio = request.POST.get('bio')
-          # doctor = Doctors.objects.create(user=user, specialty=specialty_name, bio=bio)
-          # doctor.save()
-
           doctor_profile = user.doctors
-          doctor_profile.specialty = specialty_name
+          doctor_profile.specialty = request.POST.get('specialty')
           doctor_profile.bio = request.POST.get('bio')
           doctor_profile.save()
         else:
@@ -88,7 +80,6 @@ def profile(request):
             "updated_profile_successfully": updated_profile_successfully,
             "updated_password_successfully": updated_password_successfully,
             'base_template': base_template,
-            "specialities":specialities
         })
     
 
@@ -165,52 +156,56 @@ def blogs_category(request, cat):
 
 @login_required(login_url='/login')
 def upload_blog(request, blog_id=None):
-  if blog_id:
-    blog = get_object_or_404(Blogs, pk=blog_id)
-  else:
-    blog = Blogs()
-
-  if request.method == 'POST':
-    title = request.POST.get('assign_title') 
-    category_name = request.POST.get('assign_class')
-    category = Category.objects.get(name=category_name)
-    image = request.FILES.get('assignupload')
-    description = request.POST.get('assign_desc')
-    summary = request.POST.get('assign_des')
-
-    is_published = request.POST.get('upload_blog') == 'Submit'
-
-    user = request.user 
-    author = get_object_or_404(Doctors, user=user)
-
-    blog.title = title
-    blog.doctor = author
-    blog.id_category = category
-    blog.thumbnail = image
-    blog.description = description
-    blog.summary = summary
-    blog.is_published = is_published
-    blog.posted_at = datetime.now()
-
-    blog.save()
-
-    if is_published:
-        messages.success(request, 'Blog successfully published!')
+    if blog_id:
+        blog = get_object_or_404(Blogs, pk=blog_id)
     else:
-        messages.success(request, 'Blog saved as draft.')
+        blog = Blogs()
 
-    return redirect('upload_blog') 
+    if request.method == 'POST':
+        title = request.POST.get('assign_title') 
+        category_name = request.POST.get('assign_class')
+        category = Category.objects.get(name=category_name)
+        new_image = request.FILES.get('assignupload')
+        description = request.POST.get('assign_desc')
+        summary = request.POST.get('assign_des')
 
-  total_categories = Category.objects.all()
+        is_published = request.POST.get('upload_blog') == 'Submit'
 
-  context = {
-    'user_name': request.user.username,
-    'total_categories': total_categories,
-    'blog': blog,
-  }
+        user = request.user 
+        author = get_object_or_404(Doctors, user=user)
 
-  return render(request, 'doctors/upload_blog.html', context)
+        if new_image:
+          if blog.thumbnail:
+              default_storage.delete(blog.thumbnail.name)
+          
+          blog.thumbnail = new_image
 
+        blog.title = title
+        blog.doctor = author
+        blog.id_category = category
+        blog.description = description
+        blog.summary = summary
+        blog.is_published = is_published
+        blog.posted_at = datetime.now()
+
+        blog.save()
+
+        if is_published:
+            messages.success(request, 'Blog successfully published!')
+        else:
+            messages.success(request, 'Blog saved as draft.')
+
+        return redirect('upload_blog') 
+
+    total_categories = Category.objects.all()
+
+    context = {
+        'user_name': request.user.username,
+        'total_categories': total_categories,
+        'blog': blog,
+    }
+
+    return render(request, 'doctors/upload_blog.html', context)
 
 
 @login_required(login_url='/login')
@@ -251,7 +246,6 @@ def post_comment(request):
     return redirect(reverse('blog', args=[int(blog_id)]))
 
 
-
 @login_required(login_url='/login')
 def doctor_myblogs(request):
 
@@ -274,7 +268,6 @@ def doctor_myblogs(request):
   return render(request, 'doctors/doctor_blogs.html', context)
 
 
-
 @login_required(login_url='/login')
 def doctor_drafts(request):
     user = request.user
@@ -295,17 +288,32 @@ def doctor_drafts(request):
     return render(request, 'doctors/doctor_drafts.html', context)
 
 
-
 @login_required(login_url='/login')
 def view_appointments(request):
-    if request.method == 'POST':
-      status = request.POST.get("status")
-      app_id = request.POST.get("id")
-      app = Appointment.objects.get(id=app_id)
-      status_id = Status.objects.get(status=status)
-      app.status = status_id
-
-      app.save()
-    app = Appointment.objects.filter(doctor__user = request.user)
-    return render(request,"doctors/viewappointments.html",{'appointments':app})
+    context_dict = {
+      'appointments': [
+        {
+        'doctor': 'username',
+        'patient': 'John Doe',
+        'patient_id': 1,
+        'status': "Check up",
+        'summary': "bla bka bka bka",
+        'description': ' description description description description',
+        'start_date': '2024-01-03',
+        'start_time': '10:00 AM',
+        },
+        {
+        'doctor': 'username',
+        'patient': 'John Bla',
+        'patient_id': 2,
+        'status': "Follow up",
+        'summary': "bla bka bka bka",
+        'description': ' description description description description',
+        'start_date': '2024-01-04',
+        'start_time': '12:00 AM',
+        },
+      ]
+    }
+    
+    return render(request,"doctors/viewappointments.html",context_dict)
 

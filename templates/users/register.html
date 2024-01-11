@@ -12,7 +12,6 @@
 
       {% if messages %}
         {% for message in messages %}
-          <p>{{ message.tags }}</p>
           {% if 'success' in message.tags %}
             <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
               {{ message }}

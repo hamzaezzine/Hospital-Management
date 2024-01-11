@@ -45,12 +45,17 @@ class Reste_token(models.Model):
 class Specialty(models.Model):
     name = models.CharField(max_length=25 , unique=True)
     description = models.TextField()
+    
+    class Meta:
+      verbose_name = "Specialty"
+      verbose_name_plural = "Specialty"
+    
     def __str__(self):
       return self.name
     
 class Doctors(models.Model):
   user = models.OneToOneField(Users, on_delete=models.CASCADE, primary_key=True)
-  specialty = models.ForeignKey(Specialty,on_delete=models.CASCADE, default=1)
+  specialty = models.ForeignKey(Specialty,on_delete=models.CASCADE)
   bio = models.TextField()
   
   class Meta:
