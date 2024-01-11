@@ -1,0 +1,121 @@
+[
+  {
+    "model": "patients.Time",
+    "pk": 1,
+    "fields": {
+      "time": "09:00"
+    }
+  },
+  {
+    "model": "patients.Time",
+    "pk": 2,
+    "fields": {
+      "time": "09:30"
+    }
+  },
+  {
+    "model": "patients.Time",
+    "pk": 3,
+    "fields": {
+      "time": "10:00"
+    }
+  },
+  {
+    "model": "patients.Time",
+    "pk": 4,
+    "fields": {
+      "time": "10:30"
+    }
+  },
+  {
+    "model": "patients.Time",
+    "pk": 5,
+    "fields": {
+      "time": "11:00"
+    }
+  },
+  {
+    "model": "patients.Time",
+    "pk": 6,
+    "fields": {
+      "time": "11:30"
+    }
+  },
+  {
+    "model": "patients.Time",
+    "pk": 7,
+    "fields": {
+      "time": "12:00"
+    }
+  },
+  {
+    "model": "patients.Time",
+    "pk": 8,
+    "fields": {
+      "time": "12:30"
+    }
+  },
+  {
+    "model": "patients.Time",
+    "pk": 9,
+    "fields": {
+      "time": "13:00"
+    }
+  },
+  {
+    "model": "patients.Time",
+    "pk": 10,
+    "fields": {
+      "time": "13:30"
+    }
+  },
+  {
+    "model": "patients.Time",
+    "pk": 11,
+    "fields": {
+      "time": "14:00"
+    }
+  },
+  {
+    "model": "patients.Time",
+    "pk": 12,
+    "fields": {
+      "time": "14:30"
+    }
+  },
+  {
+    "model": "patients.Time",
+    "pk": 13,
+    "fields": {
+      "time": "15:00"
+    }
+  },
+  {
+    "model": "patients.Time",
+    "pk": 14,
+    "fields": {
+      "time": "15:30"
+    }
+  },
+  {
+    "model": "patients.Time",
+    "pk": 15,
+    "fields": {
+      "time": "16:00"
+    }
+  },
+  {
+    "model": "patients.Time",
+    "pk": 16,
+    "fields": {
+      "time": "16:30"
+    }
+  },
+  {
+    "model": "patients.Time",
+    "pk": 17,
+    "fields": {
+      "time": "17:00"
+    }
+  }
+]

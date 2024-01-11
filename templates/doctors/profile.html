@@ -110,7 +110,11 @@
                 {% else %}
                   <div class="mb-3">
                     <label class="mb-2 fw-bold" for="specialty">Specialty</label>
-                    <input id="specialty" type="text" class="form-control" name="specialty" value="{{ basicdata.doctors.specialty }}" required />
+                    <select name="Speciality" class="form-select" id="">
+                      {% for speciality in specialities %}
+                      <option value="{{speciality.name}}" {% if speciality.name == basicdata.doctors.specialty.name %}selected{% endif %} >{{speciality.name}}</option>
+                      {%endfor%}
+                    </select>
                     <div class="invalid-feedback">Specialty is required for doctors</div>
                   </div>
 
@@ -123,12 +127,12 @@
 
               
                 <div class="mb-3">
-                    <label class="mb-2 fw-bold" for="select_gender">Gender</label>
-                    <select class="form-select" aria-label="Default select example" name="user_gender" id="select_gender">
-                        <option value="Male" {% if basicdata.gender == 'Male' %}selected{% endif %}>Male</option>
-                        <option value="Female" {% if basicdata.gender == 'Female' %}selected{% endif %}>Female</option>
-                    </select>
-                </div>
+                  <label class="mb-2 fw-bold" for="select_gender">Gender</label>
+                  <select class="form-select" aria-label="Default select example" name="user_gender" id="select_gender">
+                      <option value="Male" {% if basicdata.gender == 'Male' %}selected{% endif %}>Male</option>
+                      <option value="Female" {% if basicdata.gender == 'Female' %}selected{% endif %}>Female</option>
+                  </select>
+              </div>
               
                 <div class="mb-3">
                     <label class="mb-2 fw-bold" for="birthday">Birthday</label>

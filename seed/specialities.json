@@ -1,0 +1,82 @@
+[
+  {
+    "model": "users.Specialty",
+    "pk": 1,
+    "fields": {
+      "name": "General Health",
+      "description": "Deals with overall health and well-being."
+    }
+  },
+  {
+    "model": "users.Specialty",
+    "pk": 2,
+    "fields": {
+      "name": "Cardiology",
+      "description": "Specialized in the study and treatment of heart disorders."
+    }
+  },
+  {
+    "model": "users.Specialty",
+    "pk": 3,
+    "fields": {
+      "name": "Dermatology",
+      "description": "Focuses on skin, hair, and nail conditions."
+    }
+  },
+  {
+    "model": "users.Specialty",
+    "pk": 4,
+    "fields": {
+      "name": "Orthopedics",
+      "description": "Deals with the musculoskeletal system and related conditions."
+    }
+  },
+  {
+    "model": "users.Specialty",
+    "pk": 5,
+    "fields": {
+      "name": "Gastroenterology",
+      "description": "Specialized in the digestive system and related disorders."
+    }
+  },
+  {
+    "model": "users.Specialty",
+    "pk": 6,
+    "fields": {
+      "name": "Neurology",
+      "description": "Focuses on the nervous system and neurological disorders."
+    }
+  },
+  {
+    "model": "users.Specialty",
+    "pk": 7,
+    "fields": {
+      "name": "Ophthalmology",
+      "description": "Deals with eye diseases and conditions."
+    }
+  },
+  {
+    "model": "users.Specialty",
+    "pk": 8,
+    "fields": {
+      "name": "Pediatrics",
+      "description": "Specialized in the health and medical care of children."
+    }
+  },
+  {
+    "model": "users.Specialty",
+    "pk": 9,
+    "fields": {
+      "name": "Psychiatry",
+      "description": "Focuses on the diagnosis and treatment of mental disorders."
+    }
+  },
+  {
+    "model": "users.Specialty",
+    "pk": 10,
+    "fields": {
+      "name": "Rheumatology",
+      "description": "Deals with autoimmune and inflammatory disorders."
+    }
+  }
+]

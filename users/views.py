@@ -8,7 +8,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth import get_user_model
-from .models import Doctors, Patients, Address , Reste_token
+from .models import Doctors, Patients, Address , Reste_token , Specialty
 from .helpers import send_email
 import uuid
 
@@ -16,6 +16,7 @@ import uuid
 Users = get_user_model()
 
 def register(request):
+  specialities = Specialty.objects.all()
   if request.method == 'POST':
     user_status = request.POST.get('user_config')
     first_name = request.POST.get('user_firstname')
@@ -66,9 +67,10 @@ def register(request):
     user.save()
 
     if user_status == 'Doctor':
-      specialty = request.POST.get('specialty')
+      specialty = request.POST.get('Speciality')
+      specialty_name = Specialty.objects.get(name=specialty)
       bio = request.POST.get('bio')
-      doctor = Doctors.objects.create(user=user, specialty=specialty, bio=bio)
+      doctor = Doctors.objects.create(user=user, specialty=specialty_name, bio=bio)
       doctor.save()
         
     elif user_status == 'Patient':
@@ -79,7 +81,7 @@ def register(request):
     messages.success(request, 'Your account has been successfully registered. Please login.', extra_tags='success')
 
 
-  return render(request, 'users/register.html')
+  return render(request, 'users/register.html' , {'specialities':specialities})
 
 
 def login_view(request):
