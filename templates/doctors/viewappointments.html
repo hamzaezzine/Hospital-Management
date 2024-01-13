@@ -9,6 +9,29 @@
   <section class="recent">
     <div class="table-div">
       <div class="col-md-7 col-lg-8 col-xl-9" style="width:80%;">
+        <div class="filter-section">
+          <form method="get" class="d-md-flex justify-content-between align-items-center text-dark">
+            <div class="form-group mr-3">
+                <label for="filter_status" class="mr-2">Status:</label>
+                <select name="filter_status" id="filter_status" class="form-control">
+                    <option value="" {% if not filter_status %}selected{% endif %}>All</option>
+                    <option value="Accepted" {% if filter_status == "Accepted" %}selected{% endif %}>Accepted</option>
+                    <option value="Waited" {% if filter_status == "Waited" %}selected{% endif %}>Waited</option>
+                    <option value="Cancelled" {% if filter_status == "Cancelled" %}selected{% endif %}>Cancelled</option>
+                </select>
+            </div>
+            <div class="form-group mr-3">
+                <label for="filter_date" class="mr-2">Date:</label>
+                <input type="date" name="filter_date" id="filter_date" class="form-control" value="{{ filter_date }}">
+            </div>
+            <div class="form-group mr-3">
+                <label for="filter_patient_name" class="mr-2">Patient Name:</label>
+                <input type="text" name="filter_patient_name" id="filter_patient_name" class="form-control" value="{{ filter_patient_name }}">
+            </div>
+            <button type="submit" class="btn btn-primary">Apply Filters</button>
+        </form>
+        </div>
+      
         <div class="appointments">
           <!-- Appointment List -->
           {% for appointment in appointments %}
@@ -22,7 +45,25 @@
                   <div class="patient-details">
                     <h4 style="font-size:16px;"><i class="bi bi-clock-fill"></i>&nbsp;&nbsp;  {{ appointment.start_date }}&nbsp;</h4>
                     <h4 style="font-size:16px;"><i class="bi bi-hourglass-bottom"></i>&nbsp;&nbsp; {{ appointment.time.time }}&nbsp;</h4>
-                    <h4 style="font-size:16px;"><i class="bi bi-window-fullscreen"></i>&nbsp;&nbsp; {{ appointment.status.status }}</h4>
+
+                    {% if appointment.status.status == "Accepted" %}
+                        <h4 class="badge badge-pill bg-success-light" style="height:22px;font-size:14px;">
+                          {{appointment.status.status}}
+                        </h4>
+                    {% elif appointment.status.status == "Waited" %}
+                        <h4 class="badge badge-pill bg-warning text-white" style="height:22px;font-size:14px;">
+                          {{appointment.status.status}}
+                        </h4>
+                    {% elif appointment.status.status == "Cancelled" %}
+                        <h4 class="badge badge-pill bg-danger text-white" style="height:22px;font-size:14px;">
+                          {{appointment.status.status}}
+                        </h4>
+                    {% else %}
+                        <h4 class="badge badge-pill bg-secondary" style="height:22px;font-size:14px;">
+                          {{appointment.status.status}}
+                        </h4>
+                    {% endif %}
+
                   </div>
                 </div>
               </div>

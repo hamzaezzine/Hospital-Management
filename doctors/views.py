@@ -4,8 +4,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from django.core.paginator import Paginator
-from datetime import datetime
-from django.db.models import Q
+from datetime import datetime, date
+from django.db.models import Q, Count
 from django.urls import reverse
 from django.core.files.storage import default_storage
 
@@ -17,7 +17,33 @@ User = get_user_model()
 
 @login_required(login_url='/login')
 def doctor_dashboard(request):
-  return render(request,'doctors/doctor_dashboard.html')
+    doctor = request.user.doctors
+
+    total_blogs = Blogs.objects.filter(doctor=doctor).count()
+    published_blogs = Blogs.objects.filter(doctor=doctor, is_published=True).count()
+    draft_blogs = Blogs.objects.filter(doctor=doctor, is_published=False).count()
+
+    total_appointments = Appointment.objects.filter(doctor=doctor).count()
+    accepted_appointments = Appointment.objects.filter(doctor=doctor, status__status='Accepted').count()
+    waited_appointments = Appointment.objects.filter(doctor=doctor, status__status='Waited').count()
+    cancelled_appointments = Appointment.objects.filter(doctor=doctor, status__status='Cancelled').count()
+
+    current_month = date.today().month
+    appointments_per_day = Appointment.objects.filter(
+        doctor=doctor,
+        start_date__month=current_month
+    ).values('start_date').annotate(count=Count('start_date')).order_by('start_date')
+
+    return render(request, 'doctors/doctor_dashboard.html', {
+        'total_blogs': total_blogs,
+        'published_blogs': published_blogs,
+        'draft_blogs': draft_blogs,
+        'total_appointments': total_appointments,
+        'accepted_appointments': accepted_appointments,
+        'waited_appointments': waited_appointments,
+        'cancelled_appointments': cancelled_appointments,
+        'appointments_per_day': appointments_per_day,
+    })
 
 @login_required(login_url='/login')
 def profile(request):
@@ -309,6 +335,26 @@ def view_appointments(request):
 
     app.save()
   app = Appointment.objects.filter(doctor__user = request.user)
-  return render(request,"doctors/viewappointments.html",{'appointments':app})
+  
+  filter_status = request.GET.get('filter_status')
+  filter_date = request.GET.get('filter_date')
+  filter_patient_name = request.GET.get('filter_patient_name')
+
+  if filter_status:
+      app = app.filter(status__status=filter_status)
+
+  if filter_date:
+      app = app.filter(start_date=filter_date)
+
+  if filter_patient_name:
+      app = app.filter(patient__user__first_name__icontains=filter_patient_name)
+
+  return render(request, "doctors/viewappointments.html", {
+          'appointments': app,
+          'filter_status': filter_status,
+          'filter_date': filter_date,
+          'filter_patient_name': filter_patient_name
+      })
+
     
 
