@@ -7,6 +7,28 @@
 {% block content %}
 <main>
     <section class="recent">
+        <div class="filter-section my-2">
+            <form method="get" class="d-md-flex justify-content-between align-items-center text-dark">
+                <div class="form-group mr-3">
+                    <label for="filter_status" class="mr-2">Status:</label>
+                    <select name="filter_status" id="filter_status" class="form-control form-select">
+                        <option value="" {% if not filter_status or filter_status == 'All' %}selected{% endif %}>All</option>
+                        <option value="Accepted" {% if filter_status == "Accepted" %}selected{% endif %}>Accepted</option>
+                        <option value="Waited" {% if filter_status == "Waited" %}selected{% endif %}>Waited</option>
+                        <option value="Cancelled" {% if filter_status == "Cancelled" %}selected{% endif %}>Cancelled</option>                  
+                    </select>
+                </div>
+                <div class="form-group mr-3">
+                    <label for="filter_date" class="mr-2">Date:</label>
+                    <input type="date" name="filter_date" id="filter_date" class="form-control" value="{{ filter_date }}">
+                </div>
+                <div class="form-group mr-3">
+                    <label for="filter_doctor_name" class="mr-2">Doctor Name:</label>
+                    <input type="text" name="filter_doctor_name" id="filter_doctor_name" class="form-control" value="{% if filter_doctor_name is not None %}{{ filter_doctor_name }}{% endif %}">
+                </div>
+                <button type="submit" class="btn btn-primary">Search</button>
+            </form>
+        </div>
         <div class="table-div">
             <div class="table-card">
                 <div class="tab-content pt-0">

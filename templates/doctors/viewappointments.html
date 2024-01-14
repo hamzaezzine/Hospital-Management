@@ -13,7 +13,7 @@
           <form method="get" class="d-md-flex justify-content-between align-items-center text-dark">
             <div class="form-group mr-3">
                 <label for="filter_status" class="mr-2">Status:</label>
-                <select name="filter_status" id="filter_status" class="form-control">
+                <select name="filter_status" id="filter_status" class="form-control form-select">
                   <option value="" {% if not filter_status or filter_status == 'All' %}selected{% endif %}>All</option>
                   <option value="Accepted" {% if filter_status == "Accepted" %}selected{% endif %}>Accepted</option>
                   <option value="Waited" {% if filter_status == "Waited" %}selected{% endif %}>Waited</option>

@@ -20,7 +20,28 @@ def patient_dashboard(request):
 @login_required(login_url='/login')
 def my_appointments(request):
   app = Appointment.objects.filter(patient__user = request.user)
-  return render(request,'patients/my_appointments.html',{"appointments":app})
+  
+  filter_status = request.GET.get('filter_status')
+  filter_date = request.GET.get('filter_date')
+  filter_doctor_name = request.GET.get('filter_doctor_name')
+
+  if filter_status and filter_status != 'All':
+    app = app.filter(status__status=filter_status)
+
+  if filter_date:
+    app = app.filter(start_date=filter_date)
+
+  if filter_doctor_name:
+    app = app.filter(doctor__user__first_name__icontains=filter_doctor_name)
+
+  return render(request, "patients/my_appointments.html", {
+    'appointments': app,
+    'filter_status': filter_status,
+    'filter_date': filter_date,
+    'filter_doctor_name': filter_doctor_name
+  })
+  
+
 
 
 @login_required(login_url='/login')
