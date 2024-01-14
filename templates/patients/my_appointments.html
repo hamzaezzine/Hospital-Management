@@ -31,16 +31,21 @@
                                             <tr>
                                                 <td>
                                                     <h2 class="table-avatar">
-                                                        <a href="doctor-profile.html" class="avatar avatar-sm mr-2">
+                                                        <div class="avatar avatar-sm mr-2">
                                                             <img class="avatar-img rounded-circle" src="{{appointment.doctor.user.profile_avatar.url}}" alt="User Image">
-                                                        </a>
+                                                        </div>
                                                         <b><a href="#" style="text-decoration:none;font:100px;">&nbsp;&nbsp;Dr. {{ appointment.doctor.user.first_name }} <span>&nbsp;&nbsp;<!--Dental--></span></a></b>
                                                     </h2>
                                                 </td>
-                                                <td>{{ appointment.start_date }} <span class="d-block text-info" style="font-size:16px;"></span></td>
-                                                <td><span class="d-block text-info" style="font-size:16px;">{{ appointment.time.time }}</span></td>
-                                                <td><span class="d-block text-info" style="font-size:16px;color:red;">{{ appointment.summary }}</span></td>
-                                                <td>{{ appointment.description }}</td>
+                                                <td><span class="d-block" style="font-size:16px;">{{ appointment.start_date }}</span></td>
+                                                <td><span class="d-block" style="font-size:16px;">{{ appointment.time.time }}</span></td>
+                                                <td><span class="d-block" style="font-size:16px;">{{ appointment.summary }}</span></td>
+                                                <td>
+                                                    <button type="button" class="btn primary-color-background btn-primary" data-toggle="modal" data-target="#descriptionModal{{ appointment.id }}">
+                                                        <i class="bi bi-eye"></i>
+                                                    </button>
+                                                </td>
+                                            
                                                 <td>
                                                     {% if appointment.status.status == "Accepted" %}
                                                         <span class="badge badge-pill bg-success-light" style="height:22px;font-size:14px;">{{appointment.status.status}}</span>
@@ -56,6 +61,24 @@
                                                     
                                                 </td>
                                             </tr>
+                                            <div class="modal fade" id="descriptionModal{{ appointment.id }}" tabindex="-1" role="dialog" aria-labelledby="descriptionModalLabel{{ appointment.id }}" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title text-dark" id="descriptionModalLabel{{ appointment.id }}">Description</h5>
+                                                            <button type="button" class="close btn" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button> 
+                                                        </div>
+                                                        <div class="modal-body text-dark">
+                                                            {{ appointment.description }}
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn secondary-color-background text-white" data-dismiss="modal">Close</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                             {% endfor %}
                                         </tbody>
                                     </table>
