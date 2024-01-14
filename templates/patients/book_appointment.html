@@ -5,6 +5,29 @@ BookAppointment {% endblock title %} {% block page_title %} Book Appointment
 <main>
   <h2 class="dash-title">Doctors Available</h2>
   <section class="recent">
+    <div class="filter-section my-2">
+      <form method="get" class="d-md-flex justify-content-between align-items-center text-dark">
+        <div class="form-group mr-3">
+            <label for="filter_speciality" class="mr-2">Specialty:</label>
+
+            <select name="filter_speciality" class="form-control form-select" id="filter_speciality">
+              <option value="All" {% if not filter_speciality or filter_speciality == 'All' %}selected{% endif %}>All</option>
+              {% for speciality in specialities %}
+              <option value="{{speciality.name}}" {% if filter_speciality == speciality.name %}selected{% endif %} >{{speciality.name}}</option>
+              {%endfor%}
+            </select>
+        </div>
+        <div class="form-group mr-3">
+            <label for="filter_doctor_name" class="mr-2">Doctor Name:</label>
+            <input type="text" name="filter_doctor_name" id="filter_doctor_name" class="form-control" value="{% if filter_doctor_name is not None %}{{ filter_doctor_name }}{% endif %}">
+        </div>
+        <div class="form-group mr-3">
+            <label for="filter_city" class="mr-2">City:</label>
+            <input type="text" name="filter_city" id="filter_city" class="form-control" value="{% if filter_city is not None %}{{ filter_city }}{% endif %}">
+          </div>
+        <button type="submit" class="btn btn-primary">Search</button>
+      </form>
+    </div>
     <div class="table-div">
       <div class="row justify-content-left">
         {% for doctor in doctors %}

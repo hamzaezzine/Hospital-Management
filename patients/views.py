@@ -46,8 +46,31 @@ def my_appointments(request):
 
 @login_required(login_url='/login')
 def book_appointment(request):
+  specialities = Specialty.objects.all()
   doctors = Doctors.objects.all()
-  return render(request,'patients/book_appointment.html',{"doctors":doctors})
+  
+  filter_speciality = request.GET.get('filter_speciality')
+  filter_city = request.GET.get('filter_city')
+  filter_doctor_name = request.GET.get('filter_doctor_name')
+
+  if filter_speciality and filter_speciality != 'All':
+    doctors = doctors.filter(specialty__name=filter_speciality)
+
+  if filter_doctor_name:
+    doctors = doctors.filter(user__first_name__icontains=filter_doctor_name)
+
+  if filter_city:
+    doctors = doctors.filter(user__id_address__city__icontains=filter_city)
+
+  return render(request, "patients/book_appointment.html", {
+    'doctors': doctors,
+    'specialities': specialities,
+    'filter_speciality': filter_speciality,
+    'filter_doctor_name': filter_doctor_name,
+    'filter_city': filter_city,
+  })
+  
+  # return render(request,'patients/book_appointment.html',{"doctors":doctors})
 
 
 @login_required(login_url='/login')
