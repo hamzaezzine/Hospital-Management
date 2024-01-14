@@ -325,36 +325,32 @@ def view_appointments(request):
   if request.method == 'POST':
     status = request.POST.get("status")
     app_id = request.POST.get("app")
-    
-    print("status:"+status)    
-    print("app_id:"+app_id)   
-    
+
     app = Appointment.objects.get(id=app_id)
     status_id = Status.objects.get(status=status)
     app.status = status_id
 
     app.save()
-  app = Appointment.objects.filter(doctor__user = request.user)
-  
+
+  app = Appointment.objects.filter(doctor__user=request.user)
+
   filter_status = request.GET.get('filter_status')
   filter_date = request.GET.get('filter_date')
   filter_patient_name = request.GET.get('filter_patient_name')
 
-  if filter_status:
-      app = app.filter(status__status=filter_status)
+  if filter_status and filter_status != 'All':
+    app = app.filter(status__status=filter_status)
 
   if filter_date:
-      app = app.filter(start_date=filter_date)
+    app = app.filter(start_date=filter_date)
 
   if filter_patient_name:
-      app = app.filter(patient__user__first_name__icontains=filter_patient_name)
+    app = app.filter(patient__user__first_name__icontains=filter_patient_name)
 
   return render(request, "doctors/viewappointments.html", {
-          'appointments': app,
-          'filter_status': filter_status,
-          'filter_date': filter_date,
-          'filter_patient_name': filter_patient_name
-      })
-
-    
+    'appointments': app,
+    'filter_status': filter_status,
+    'filter_date': filter_date,
+    'filter_patient_name': filter_patient_name
+  })
 
