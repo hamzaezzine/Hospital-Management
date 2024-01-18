@@ -12,7 +12,7 @@
           <div class="row">
             <div class="col-md-10 border p-4 shadow text-black" style="width: 100%; border-radius: 20px">
               <div class="col-12 text-black">
-                <h3>Doctor Name: {{ doctor.user.username }}</h3>
+                <h3>Doctor Name: {{ doctor.user.last_name }} {{ doctor.user.first_name }}</h3>
               </div>
               <form method="POST" class="needs-validation" nonalidate="" autocomplete="off" enctype="multipart/form-data">
                 {% csrf_token %}

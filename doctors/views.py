@@ -284,7 +284,7 @@ def doctor_myblogs(request):
   user = request.user
   author = get_object_or_404(Doctors, user=user)
   
-  blogs = Blogs.objects.filter(doctor=author).order_by('-posted_at')
+  blogs = Blogs.objects.filter(doctor=author, is_published=True).order_by('-posted_at')
   categories = Category.objects.all()
 
   paginator = Paginator(blogs, 5)
