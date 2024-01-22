@@ -135,13 +135,11 @@ def reset_view(request,token):
             confirm_password = request.POST.get('conf_password')
             if len(password) < 6:
                 messages.error(request, 'Password must be at least 6 characters long.')
-                print('ana 7mar 7mar')
                 return render(request, 'users/reset.html', {'token': token} )
             print(password)
             print(confirm_password)
             if password != confirm_password:
                 messages.error(request, 'password do not match')
-                print('ana 7mar')
                 return render(request, 'users/reset.html', {'token': token} )
             user = Users.objects.filter(email=reste[0].email).first()
             if user:
@@ -152,7 +150,6 @@ def reset_view(request,token):
                 return redirect('login')
             else:
                 return render(request, 'users/reset.html', {'token': token , 'errorlogin':1} )
-        print("madkheltch")
         return render(request, 'users/reset.html', {'token': token} )
     return render(request, 'users/reset.html',{'token': token})
 

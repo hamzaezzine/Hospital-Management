@@ -1,7 +1,153 @@
 # Hospital Management 
 
-### Seed database:
-`python manage.py loaddata seed/categories.json`  
-`python manage.py loaddata seed/specialities.json`  
-`python manage.py loaddata seed/status.json`  
-`python manage.py loaddata seed/time.json`
+<br/>
+<p align="center">
+  <a href="https://github.com/hamzaezzine/Hospital-Management">
+    <img src="static/img/logo.png" alt="Logo"  height="80">
+  </a>
+
+  <h3 align="center">Hospital Management</h3>
+
+  <p align="center">
+    Hospital Management Django Website
+    <br/>
+    <br/>
+    <a href="https://github.com/hamzaezzine/Hospital-Management">View Demo</a>
+    .
+    <a href="https://github.com/hamzaezzine/Hospital-Management/issues">Report Bug</a>
+    .
+    <a href="https://github.com/hamzaezzine/Hospital-Management/issues">Request Feature</a>
+  </p>
+</p>
+
+![Contributors](https://img.shields.io/github/contributors/hamzaezzine/Hospital-Management?color=dark-green) ![Forks](https://img.shields.io/github/forks/hamzaezzine/Hospital-Management?style=social) ![Stargazers](https://img.shields.io/github/stars/hamzaezzine/Hospital-Management?style=social) ![Issues](https://img.shields.io/github/issues/hamzaezzine/Hospital-Management) 
+
+## Table Of Contents
+
+- [Hospital Management](#hospital-management)
+  - [Table Of Contents](#table-of-contents)
+  - [About The Project](#about-the-project)
+  - [Built With](#built-with)
+  - [Getting Started](#getting-started)
+    - [Prerequisites](#prerequisites)
+    - [Installation](#installation)
+  - [Usage](#usage)
+  - [Conception](#conception)
+  - [Screenshots](#screenshots)
+  - [Seed Database](#seed-database)
+
+## About The Project
+
+The Hospital Management Django project is designed to streamline the interaction between doctors and patients. Doctors have the capability to upload blogs or save them as drafts, allowing them to share valuable medical information and insights. Additionally, the system enables doctors to manage appointments by checking, accepting, or canceling them. This ensures efficient scheduling and communication between healthcare providers and patients.
+
+For patients, the project offers a user-friendly interface for registration and login. Once logged in, patients can access the blog section to read and comment on doctors' posts. The appointment booking feature allows patients to choose a specific doctor based on filters and schedule appointments. Patients can also view their past appointments, creating a comprehensive and accessible record of their medical history. Overall, this Hospital Management system enhances communication and accessibility in the healthcare process for both doctors and patients.
+
+## Built With
+
+**FRONT-END :**
+- HTML
+- CSS 
+ - JS
+- Bootstrap
+- jQuery
+
+**BACK-END :**
+ - Python
+- Django
+- SQLite
+
+## Getting Started
+
+To get started with the Hospital Management System, follow the instructions below.
+
+### Prerequisites
+
+Make sure you have the following prerequisites installed on your machine:
+
+- Python
+
+### Installation
+
+1. Clone the repository to your local machine:
+
+```bash
+   git clone https://github.com/hamzaezzine/Hospital-Management  
+```
+
+2. Create virtual environmenet  :  
+```bash
+   virtualenv env
+   or  
+   python -m venv env
+```
+then start the environmenet :  
+```bash
+  env\Scripts\activate
+```
+
+3. Navigate to the project directory:  
+`cd Hospital-Management`
+
+4. Install the required dependencies:  
+`pip install -r requirements.txt`
+
+5. Apply migrations to set up the database:  
+`python manage.py migrate`
+
+## Usage
+
+1. Start the development server:  
+`python manage.py runserver`
+
+2. Open your web browser and visit http://localhost:8000 to access the Hospital Management System.
+
+3. Follow the on-screen instructions to register/login as a doctor or patient.
+
+4. Explore the features, including blog management, appointment scheduling, and more.
+
+## Conception
+1. Database Schema
+![db](screenshots/db.png)
+
+2. Use Case Diagram : 
+![usecase](screenshots/usecase.png)
+
+## Screenshots
+- Login Page : 
+![login](screenshots/login.png)
+
+- Register Page : 
+![login](screenshots/register.png)
+
+- Profile Page : 
+![login](screenshots/profile.png)
+
+- Blogs : 
+![login](screenshots/blogs.png)
+
+- Upload Blog Page : 
+![login](screenshots/upload_blog.png)
+
+- Draft Blogs Page : 
+![login](screenshots/draft_blog.png)
+
+- Doctor Appointments Page : 
+![login](screenshots/doctor_app.png)
+
+- Patient Book Appointments Page : 
+![login](screenshots/patient_book_app.png)
+
+- Patient Confirm Appointments Page : 
+![login](screenshots/patient_confirm_app.png)
+
+- Patient View Appointments Page : 
+![login](screenshots/patient_view_app.png)
+
+
+## Seed Database
+```bash
+python manage.py loaddata seed/categories.json 
+python manage.py loaddata seed/specialities.json
+python manage.py loaddata seed/status.json
+python manage.py loaddata seed/time.json
+```
