@@ -85,25 +85,33 @@ then start the environmenet :
   env\Scripts\activate
 ```
 
-3. Navigate to the project directory:  
-`cd Hospital-Management`
+3. Navigate to the project directory:
+```bash 
+cd Hospital-Management
+```
 
-4. Install the required dependencies:  
-`pip install -r requirements.txt`
+5. Install the required dependencies:
+```bash
+pip install -r requirements.txt
+```
 
-5. Apply migrations to set up the database:  
-`python manage.py migrate`
+7. Apply migrations to set up the database:
+```bash 
+python manage.py migrate
+```
 
 ## Usage
 
 1. Start the development server:  
-`python manage.py runserver`
+```bash
+python manage.py runserver
+```
 
-2. Open your web browser and visit http://localhost:8000 to access the Hospital Management System.
+3. Open your web browser and visit http://localhost:8000 to access the Hospital Management System.
 
-3. Follow the on-screen instructions to register/login as a doctor or patient.
+4. Follow the on-screen instructions to register/login as a doctor or patient.
 
-4. Explore the features, including blog management, appointment scheduling, and more.
+5. Explore the features, including blog management, appointment scheduling, and more.
 
 ## Conception
 1. Database Schema
