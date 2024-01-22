@@ -118,38 +118,38 @@ python manage.py runserver
 ![db](screenshots/db.png)
 
 2. Use Case Diagram : 
-![usecase](screenshots/usecase.png)
+![usecase](screenshots/usecase.PNG)
 
 ## Screenshots
 - Login Page : 
-![login](screenshots/login.png)
+![login](screenshots/login.PNG)
 
 - Register Page : 
-![login](screenshots/register.png)
+![register](screenshots/register.PNG)
 
 - Profile Page : 
-![login](screenshots/profile.png)
+![profile](screenshots/profile.PNG)
 
 - Blogs : 
-![login](screenshots/blogs.png)
+![blogs](screenshots/blogs.PNG)
 
 - Upload Blog Page : 
-![login](screenshots/upload_blog.png)
+![upload_blog](screenshots/upload_blog.PNG)
 
 - Draft Blogs Page : 
-![login](screenshots/draft_blog.png)
+![draft_blog](screenshots/draft_blog.PNG)
 
 - Doctor Appointments Page : 
-![login](screenshots/doctor_app.png)
+![doctor_app](screenshots/doctor_app.PNG)
 
 - Patient Book Appointments Page : 
-![login](screenshots/patient_book_app.png)
+![patient_book_app](screenshots/patient_book_app.PNG)
 
 - Patient Confirm Appointments Page : 
-![login](screenshots/patient_confirm_app.png)
+![patient_confirm_app](screenshots/patient_confirm_app.PNG)
 
 - Patient View Appointments Page : 
-![login](screenshots/patient_view_app.png)
+![patient_view_app](screenshots/patient_view_app.PNG)
 
 
 ## Seed Database
